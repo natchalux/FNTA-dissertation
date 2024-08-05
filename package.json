@@ -7,7 +7,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "test": "jest"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "^4.6.3",
@@ -40,5 +40,9 @@
     "react-test-renderer": "^18.3.1",
     "tailwindcss": "^3.3.2"
   },
-  "private": true
+  "private": true,
+  "jest": {
+    "transform": {}
+  }
 }
+
