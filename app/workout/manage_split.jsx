@@ -1,76 +1,54 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
     View, 
     Text, 
     ScrollView, 
     TouchableOpacity, 
-    TextInput
+    TextInput, 
+    Alert,
+    StyleSheet
 } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { fetchWorkout, createExerciseSet, fetchPreviousWeekData } from '../../lib/appwrite';
-import { Alert } from 'react-native';
-import { Databases } from 'react-native-appwrite';
 import { useGlobalContext } from '../../context/GlobalProvider';
 
 /**
  * ManageWorkout page
  * 
- * This component allow user to log in their workout sets and compare it to the previous week.
+ * This component allows the user to log their workout sets and compare them to the previous week.
  * Allow user to add more extra sets in one exercise
- * viewing their customize workout name and exercises
+ * viewing their customized workout name and exercises
  *
  * @component
  * @returns {JSX.Element} The rendered ManageWorkout component.
  */
 const ManageWorkout = () => {
-    // Retrieve workoutName and workoutId from local search parameters
     const { workoutName, workoutId } = useLocalSearchParams();
-    //
-    const { weekNumbers, updateWeekNumber} = useGlobalContext();
-    // state to store workout details
-    const { setTriggerTimer } = useGlobalContext();
+    const { weekNumbers, updateWeekNumber, setTriggerTimer } = useGlobalContext();
     const [workout, setWorkout] = useState(null);
-    // loading state
     const [isLoading, setIsLoading] = useState(true);
-    // state that store an sets for particular exercise
     const [inputSets, setInputSets] = useState({});
-    // variable maximum set per exercise, preventing user exceed set number
     const [weekNumber, setWeekNumber] = useState(weekNumbers[workoutId] || '1');
     const [previousWeekData, setPreviousWeekData] = useState({});
     const maximum_set_per_exercise = 4;
 
-
     const incrementWeek = () => {
         setWeekNumber(prev => (Number(prev) + 1).toString());
-        // Reset input sets for the new week
         const resetSets = {};
         Object.keys(inputSets).forEach(exercise => {
             resetSets[exercise] = [{ weight: '', reps: '' }];
         });
         setInputSets(resetSets);
     };
-     /**
-     * useEffect that handle loadint te workout details when the component mounts
-     * 
-     * @effect
-     */
+
     useEffect(() => {
         loadWorkout();
     }, []);
 
     useEffect(() => {
-        // Update global state whenever weekNumber changes
         updateWeekNumber(workoutId, weekNumber);
-      }, [weekNumber, workoutId]);
+    }, [weekNumber, workoutId]);
 
-
-    /**
-     * Asynchronously loads workout details from the Appwrite server
-     * 
-     * @async
-     * @function
-     * @throws {Error} - when there is an error fetching a workout data
-     */
     const loadWorkout = async () => {
         try {
             setIsLoading(true);
@@ -81,11 +59,11 @@ const ManageWorkout = () => {
             const currentWeek = Number(weekNumber);
             for (const exercise of workoutData.exercises) {
                 initialSets[exercise.exerciseId] = [{ weight: '', reps: '', weekNumber: weekNumber }];
-                    if (currentWeek > 1 ){
-                const previousData = await fetchPreviousWeekData(exercise.exerciseId, currentWeek - 1); 
-                initialPreviousWeekData[exercise.exerciseId] = previousData;
-                    }
-            };
+                if (currentWeek > 1) {
+                    const previousData = await fetchPreviousWeekData(exercise.exerciseId, currentWeek - 1); 
+                    initialPreviousWeekData[exercise.exerciseId] = previousData;
+                }
+            }
             setInputSets(initialSets);
             setPreviousWeekData(initialPreviousWeekData);
         } catch (error) {
@@ -95,9 +73,6 @@ const ManageWorkout = () => {
         }
     };
 
-    /**
-     * to do implementing new session logic, handle incrementing week number and minimize the previous week data
-     */
     const startNewSession = async () => {
         const currentWeek = Number(weekNumber);
         const newWeekNumber = (currentWeek + 1).toString();
@@ -107,22 +82,15 @@ const ManageWorkout = () => {
         const newPreviousWeekData = {};
         
         for (const exercise of workout.exercises) {
-            
             const previousData = await fetchPreviousWeekData(exercise.exerciseId, currentWeek);
             newPreviousWeekData[exercise.exerciseId] = previousData;
             newSets[exercise.exerciseId] = [{ weight: '', reps: '', weekNumber: newWeekNumber }];
         }
-        setWeekNumber(newWeekNumber)
+        setWeekNumber(newWeekNumber);
         setPreviousWeekData(newPreviousWeekData);
         setInputSets(newSets);
     };
 
-    /**
-     * Adds a new set for a specified exercise
-     * STILL NEEDS TO IMPLEMENT THE ACTUAL LOGIC TO DEAL WITH BACKEND DATA
-     * @function
-     * @param {string} exercise - The name of the exercise to add a set to
-     */
     const addSet = (exercise) => {
         setInputSets(prev => {
             if (prev[exercise].length < maximum_set_per_exercise) {
@@ -136,7 +104,6 @@ const ManageWorkout = () => {
     };
     
     const handleInputChange = (exercise, index, field, value) => {
-        
         setInputSets(prev => ({
             ...prev,
             [exercise]: prev[exercise].map((set, i) => 
@@ -147,10 +114,8 @@ const ManageWorkout = () => {
     
     const saveWorkoutSets = async () => {
         try {
-            console.log(inputSets)
             for (const [exercise, sets] of Object.entries(inputSets)) {
                 for (const set of sets) {
-                    // console.log(exercise)
                     if (set.weight && set.reps) {
                         await createExerciseSet(
                             Number(set.weight),
@@ -158,7 +123,6 @@ const ManageWorkout = () => {
                             Number(set.weekNumber),
                             exercise
                         );
-                
                     }
                 }
             }
@@ -170,82 +134,171 @@ const ManageWorkout = () => {
         }
     };
 
-  
-
     return (
-        
-        <ScrollView className="flex-1 bg-black p-5">
-            
-            <Text className="text-2xl text-white mb-5">{workoutName}</Text>
-            <Text className="text-lg text-white">Week {weekNumber}</Text>
+        <ScrollView style={styles.container}>
+            <Text style={styles.title}>{workoutName}</Text>
+            <Text style={styles.weekNumber}>Week {weekNumber}</Text>
             {isLoading && (
-                <Text className="text-lg text-white">Loading...</Text>
+                <Text style={styles.loadingText}>Loading...</Text>
             )}
             {workout && workout.exercises && (
                 <>
-                    <Text className="text-lg text-white mb-3">Exercises:</Text>
+                    <Text style={styles.subtitle}>Exercises:</Text>
                     {workout.exercises.map((exercise, index) => (
-                        <View key={index} className="bg-gray-700 p-4 rounded mb-2">
-                            <Text className="text-white text-base">{exercise.exercise_name}</Text>
-                            <View className="flex-row flex-wrap">
+                        <View key={index} style={styles.exerciseContainer}>
+                            <Text style={styles.exerciseName}>{exercise.exercise_name}</Text>
+                            <View style={styles.setsContainer}>
                                 {inputSets[exercise.exerciseId] && inputSets[exercise.exerciseId].map((set, i) => (
-                                <View key={i} className="mb-2">
-                                    <TextInput
-                                        className="bg-white text-black p-2 w-20 rounded mb-1"
-                                        placeholder="Weight"
-                                        value={set.weight}
-                                        onChangeText={(value) => handleInputChange(exercise.exerciseId, i, 'weight', value)}
-                                        style={{ width: 70, fontSize: 14 }}
-                                    />
-                                    <TextInput
-                                        className="bg-white text-black p-2 w-20 rounded"
-                                        placeholder="Reps"
-                                        value={set.reps}
-                                        onChangeText={(value) => handleInputChange(exercise.exerciseId, i, 'reps', value)}
-                                        style={{ width: 70, fontSize: 14 }}
-
-                                    />
-                                    
-                                    {previousWeekData[exercise.exerciseId] && previousWeekData[exercise.exerciseId].length > 0 && (
-                                    
-                                   <Text className='text-lg text-white border border-red-500'>Previous week({Number(weekNumber) - 1}): {previousWeekData[exercise.exerciseId].map(set => set.weight).join(' ')} | {previousWeekData[exercise.exerciseId].map(set => set.reps).join(' ')}</Text>
-                                   )}
-                                </View>
-                            ))}
-                            </View>  
-                                <View className='flex-row flex-wrap ml-72'>
-                                    <TouchableOpacity 
-                                        className="bg-blue-500 p-2 rounded mt-2 flex-row flex-wrap"
-                                        onPress={() => addSet(exercise.exerciseId)}
-                                    >
-                                        <Text className="text-white text-center">add set</Text>
-                                    </TouchableOpacity>
-                                </View>
-                                    <View className = 'flex-row flex-wrap ml-72'>
-                                        <TouchableOpacity 
-                                            className="bg-green-500 p-2 rounded mt-2 flex-row flex-wrap"
-                                            onPress={saveWorkoutSets}
-                                        >
-                                        <Text className="text-white text-center text-sm">Log Set</Text>
-                                        </TouchableOpacity>
+                                    <View key={i} style={styles.setContainer}>
+                                        <TextInput
+                                            style={styles.input}
+                                            placeholder="Weight"
+                                            value={set.weight}
+                                            onChangeText={(value) => handleInputChange(exercise.exerciseId, i, 'weight', value)}
+                                        />
+                                        <TextInput
+                                            style={styles.input}
+                                            placeholder="Reps"
+                                            value={set.reps}
+                                            onChangeText={(value) => handleInputChange(exercise.exerciseId, i, 'reps', value)}
+                                        />
+                                        {previousWeekData[exercise.exerciseId] && previousWeekData[exercise.exerciseId].length > 0 && (
+                                            <Text style={styles.previousWeekData}>
+                                                Previous week({Number(weekNumber) - 1}): {previousWeekData[exercise.exerciseId].map(set => set.weight).join(' ')} | {previousWeekData[exercise.exerciseId].map(set => set.reps).join(' ')}
+                                            </Text>
+                                        )}
                                     </View>
-                                </View>  
-                            ))}
-                        </>
+                                ))}
+                            </View>
+                            <TouchableOpacity 
+                                style={styles.addButton}
+                                onPress={() => addSet(exercise.exerciseId)}
+                            >
+                                <Text style={styles.addButtonText}>Add Set</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity 
+                                style={styles.logButton}
+                                onPress={saveWorkoutSets}
+                            >
+                                <Text style={styles.logButtonText}>Log Set</Text>
+                            </TouchableOpacity>
+                        </View>  
+                    ))}
+                </>
             )}
             {workout && !workout.exercises && (
-                <Text className="text-lg text-white">No exercises found for this workout.</Text>
+                <Text style={styles.noExercisesText}>No exercises found for this workout.</Text>
             )}
-            <View className="flex-1 justify-end items-end p-5">
+            <View style={styles.newSessionContainer}>
                 <TouchableOpacity 
-                    className="bg-blue-500 p-4 rounded-lg"
+                    style={styles.newSessionButton}
                     onPress={startNewSession}
                 >
-                    <Text className="text-white text-center text-lg">New Sessions</Text>
+                    <Text style={styles.newSessionButtonText}>New Session</Text>
                 </TouchableOpacity>
             </View>          
         </ScrollView>
     );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'black',
+    padding: 20,
+  },
+  title: {
+    fontSize: 24,
+    color: 'white',
+    marginBottom: 20,
+  },
+  weekNumber: {
+    fontSize: 18,
+    color: 'white',
+    marginBottom: 20,
+  },
+  loadingText: {
+    fontSize: 18,
+    color: 'white',
+  },
+  subtitle: {
+    fontSize: 18,
+    color: 'white',
+    marginBottom: 10,
+  },
+  exerciseContainer: {
+    backgroundColor: '#374151',
+    padding: 16,
+    borderRadius: 8,
+    marginBottom: 20,
+  },
+  exerciseName: {
+    fontSize: 16,
+    color: 'white',
+    marginBottom: 10,
+  },
+  setsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  setContainer: {
+    marginBottom: 20,
+  },
+  input: {
+    backgroundColor: 'white',
+    color: 'black',
+    padding: 10,
+    borderRadius: 8,
+    marginBottom: 10,
+    width: 70,
+    fontSize: 14,
+  },
+  previousWeekData: {
+    fontSize: 16,
+    color: 'white',
+    borderWidth: 1,
+    borderColor: 'red',
+    padding: 10,
+  },
+  addButton: {
+    backgroundColor: '#60A5FA',
+    padding: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  addButtonText: {
+    color: 'white',
+    fontSize: 16,
+  },
+  logButton: {
+    backgroundColor: '#10B981',
+    padding: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  logButtonText: {
+    color: 'white',
+    fontSize: 16,
+  },
+  noExercisesText: {
+    fontSize: 18,
+    color: 'white',
+  },
+  newSessionContainer: {
+    alignItems: 'flex-end',
+    padding: 20,
+  },
+  newSessionButton: {
+    backgroundColor: '#60A5FA',
+    padding: 20,
+    borderRadius: 8,
+  },
+  newSessionButtonText: {
+    color: 'white',
+    fontSize: 18,
+  },
+});
 
 export default ManageWorkout;

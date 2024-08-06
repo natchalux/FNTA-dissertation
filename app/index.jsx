@@ -3,22 +3,21 @@ import {
   ScrollView,
   Text, 
   View,
-  Image
+  Image,
+  StyleSheet
 } from 'react-native';
 import logo from '../assets/logo.png';
 import { StatusBar } from 'expo-status-bar';
-import { Redirect, router} from 'expo-router';
+import { Redirect, router } from 'expo-router';
 import CustomButton from '../components/CustomButton';
 import { useGlobalContext } from '../context/GlobalProvider';
-
-import "../global.css"
 
 /**
  * 
  * Index or similar to app.js
  * 
  * This component serves as an entry point for the application. 
- * it displyas a blank screen with app title and a sign in button
+ * it displays a blank screen with app title and a sign in button
  * optionally, user can continue to sign up if they were not already have a sign in information 
  * redirect user to the tabs/home.jsx if they are logged in
  * wrapped in GlobalContext to keep the user sign in even though they close the app
@@ -29,32 +28,70 @@ import "../global.css"
 
 export default function App() {
 
-  const {isLoading, isLogged} = useGlobalContext();
+  const { isLoading, isLogged } = useGlobalContext();
 
   // Redirect to home page if the user is logged in
-  if(!isLoading && isLogged) 
-    return <Redirect href='/home'/>
+  if (!isLoading && isLogged) 
+    return <Redirect href='/home' />
 
   return (
-    <SafeAreaView className = 'bg-black h-full'>
-      <ScrollView contentContainerStyle={{height : '100%'}}>
-        <View className = 'w-full h-full items-center justify-center px-4'> 
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollView}>
+        <View style={styles.innerContainer}>
           <Image 
             source={logo} 
-            style={{ width: 200, height: 156 }}
+            style={styles.logo}
           />
-          <Text className = 'text-sm text-white mb-2'>Fitness Note Taking App</Text>
-            <View className= 'mt-8'>
-              <Text className = 'text-lg text-white mb-2'>Continue to your account</Text>
-              <CustomButton
-                title = 'Sign In'
-                handlePress = {() => router.push('/sign-in')}
-                containerStyles= 'mt-7'
-              />
+          <Text style={styles.appTitle}>Fitness Note Taking App</Text>
+          <View style={styles.buttonContainer}>
+            <Text style={styles.signInPrompt}>Continue to your account</Text>
+            <CustomButton
+              title='Sign In'
+              handlePress={() => router.push('/sign-in')}
+              containerStyles={styles.signInButton}
+            />
           </View>
         </View>
       </ScrollView>
-      <StatusBar style='light'/> 
+      <StatusBar style='light' /> 
     </SafeAreaView>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'black',
+  },
+  scrollView: {
+    height: '100%',
+  },
+  innerContainer: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+  },
+  logo: {
+    width: 200,
+    height: 156,
+  },
+  appTitle: {
+    fontSize: 14,
+    color: 'white',
+    marginBottom: 8,
+  },
+  buttonContainer: {
+    marginTop: 32,
+  },
+  signInPrompt: {
+    fontSize: 18,
+    color: 'white',
+    marginBottom: 8,
+  },
+  signInButton: {
+    marginTop: 28,
+  },
+});

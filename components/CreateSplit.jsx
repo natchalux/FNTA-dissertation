@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Modal, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, Modal, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
 /**
  * CreateSplit 
@@ -8,7 +8,7 @@ import { View, Text, Modal, TextInput, TouchableOpacity } from 'react-native';
  * 
  * Responsible for rendering the modal for creating a new split by, 
  * adding name of the split, for exammple, chest day 1 
- * then addding an exercuse, for example, push up
+ * then addding an exercise, for example, push up
  *
  * 
  * @component
@@ -50,49 +50,49 @@ const CreateSplit = ({
       visible={visible}
       onRequestClose={onClose}
     >
-      <View className="flex-1 justify-center">
-        <View className="bg-gray-800 p-5 rounded-t-lg">
+      <View style={styles.container}>
+        <View style={styles.modalContent}>
           {step === 1 ? (
             <>
-              <Text className="text-white text-xl mb-4">New split</Text>
+              <Text style={styles.title}>New split</Text>
               <TextInput
-                className="bg-gray-600 text-white p-2 rounded mb-4"
+                style={styles.input}
                 placeholder="Name of split: For example Push Day #1"
                 placeholderTextColor="#999"
                 value={splitName}
                 onChangeText={onSplitNameChange}
               />
-              <View className="flex-row justify-between">
+              <View style={styles.buttonRow}>
                 <TouchableOpacity onPress={onClose}>
-                  <Text className="text-white">Cancel</Text>
+                  <Text style={styles.buttonText}>Cancel</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={onDoneStep1}>
-                  <Text className="text-white">Done</Text>
+                  <Text style={styles.buttonText}>Done</Text>
                 </TouchableOpacity>
               </View>
             </>
           ) : (
             <>
-              <Text className="text-white text-xl mb-4">Add exercise</Text>
+              <Text style={styles.title}>Add exercise</Text>
               <TextInput
-                className="bg-gray-600 text-white p-2 rounded mb-4"
+                style={styles.input}
                 placeholder="Enter the exercise"
                 placeholderTextColor="#999"
                 value={exercise}
                 onChangeText={onExerciseChange}
               />
-              <TouchableOpacity className="bg-gray-600 p-2 rounded mb-4" onPress={onAddExercise}>
-                <Text className="text-white">+ Add Exercise</Text>
+              <TouchableOpacity style={styles.addButton} onPress={onAddExercise}>
+                <Text style={styles.addButtonText}>+ Add Exercise</Text>
               </TouchableOpacity>
               {exercises.map((ex, index) => (
-                <Text key={index} className="text-white mb-2">• {ex}</Text>
+                <Text key={index} style={styles.exerciseText}>• {ex}</Text>
               ))}
-              <View className="flex-row justify-between mt-4">
+              <View style={styles.buttonRow}>
                 <TouchableOpacity onPress={onBackToStep1}>
-                  <Text className="text-white">Back</Text>
+                  <Text style={styles.buttonText}>Back</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={onDoneStep2}>
-                  <Text className="text-white">Done</Text>
+                  <Text style={styles.buttonText}>Done</Text>
                 </TouchableOpacity>
               </View>
             </>
@@ -102,5 +102,52 @@ const CreateSplit = ({
     </Modal>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: '#1F2937',
+    padding: 20,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    margin: 10,
+  },
+  title: {
+    color: 'white',
+    fontSize: 20,
+    marginBottom: 16,
+  },
+  input: {
+    backgroundColor: '#4B5563',
+    color: 'white',
+    padding: 10,
+    borderRadius: 8,
+    marginBottom: 16,
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  buttonText: {
+    color: 'white',
+  },
+  addButton: {
+    backgroundColor: '#4B5563',
+    padding: 10,
+    borderRadius: 8,
+    marginBottom: 16,
+  },
+  addButtonText: {
+    color: 'white',
+  },
+  exerciseText: {
+    color: 'white',
+    marginBottom: 8,
+  },
+});
 
 export default CreateSplit;
