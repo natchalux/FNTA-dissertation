@@ -60,24 +60,24 @@ const SignIn = () => {
    * @throws {Error} If sign-in fails
    */
   const submit = async () => {
-    if( !form.email || !form.password ) {
-      Alert.alert('Error', 'Fill in all the field')
-    }
+    // if( !form.email || !form.password ) {
+    //   Alert.alert('Error', 'Fill in all the field')
+    // }
 
-    if (!isValidEmail(form.email)) {
-      Alert.alert('Error', 'Please enter a valid email address');
-      return;
-    }
+    // if (!isValidEmail(form.email)) {
+    //   Alert.alert('Error', 'Please enter a valid email address');
+    //   return;
+    // }
 
     console.log("Submitting with email:", form.email);
 
     setSubmitting(true);
     
     try {
-       const session = await signIn(form.email, form.password)
-       const result = await getCurrentUser();
+      //  const session = await signIn(form.email, form.password)
+      //  const result = await getCurrentUser();
       //const session = await signIn(form.email, form.password);
-      setUser(result);
+      // setUser(result);
       setIsLogged(true);
 
       router.replace('/home')
@@ -97,7 +97,6 @@ const SignIn = () => {
       <StatusBar style="light" />
       <View className="flex-1 justify-center px-8">
         <View className="items-center mb-7">
-          {/*Empty Logo*/}
           <Image 
             source={logo} 
             style={{ width: 200, height: 156 }}

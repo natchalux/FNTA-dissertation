@@ -11,6 +11,8 @@ import { Redirect, router} from 'expo-router';
 import CustomButton from '../components/CustomButton';
 import { useGlobalContext } from '../context/GlobalProvider';
 
+import "../global.css"
+
 /**
  * 
  * Index or similar to app.js
