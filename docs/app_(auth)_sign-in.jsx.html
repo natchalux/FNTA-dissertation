@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: app/(auth)/sign-in.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: app/(auth)/sign-in.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState } from 'react';
+import { 
+  SafeAreaView, 
+  View, 
+  Text, 
+  TouchableOpacity, 
+  Image, 
+  Alert,
+  StyleSheet
+} from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { Link, router } from 'expo-router';
+import { getCurrentUser, signIn } from '../../lib/appwrite';
+import FormField from '../../components/FormField';
+import CustomButton from '../../components/CustomButton';
+import { useGlobalContext } from '../../context/GlobalProvider';
+import logo from '../../assets/logo.png';
+
+/**
+ * Sign In Auth Page.
+ * 
+ * This page allows the user to sign in using their authentication credentials.
+ * Upon successful login, it will redirect to the home screen.
+ * 
+ * @returns {JSX.Element} The rendered SignIn component.
+ */
+
+const SignIn = () => {
+  const { setUser, setIsLogged } = useGlobalContext();
+  const [form, setForm] = useState({ email: '', password: '' });
+  const [isSubmitting, setSubmitting] = useState(false);
+
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const submit = async () => {
+    if (!form.email || !form.password) {
+      Alert.alert('Error', 'Fill in all the fields');
+      return;
+    }
+
+    if (!isValidEmail(form.email)) {
+      Alert.alert('Error', 'Please enter a valid email address');
+      return;
+    }
+
+    console.log("Submitting with email:", form.email);
+
+    setSubmitting(true);
+    
+    try {
+      const session = await signIn(form.email, form.password);
+      const result = await getCurrentUser();
+
+      setUser(result);
+      setIsLogged(true);
+
+      router.replace('/home');
+    } catch (error) {
+      console.error("Error details:", error);
+      Alert.alert('Error', error.message);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    &lt;SafeAreaView style={styles.container}>
+
+      &lt;StatusBar style="light" />
+      &lt;View style={styles.formContainer}>
+        &lt;View style={styles.logoContainer}>
+          &lt;Image 
+            source={logo} 
+            style={styles.logo}
+          />
+        &lt;/View>
+        
+        &lt;Text style={styles.title}>To continue please sign in&lt;/Text>
+        
+        &lt;FormField
+          title='Email'
+          value={form.email}
+          handleChangeText={(e) => setForm({ ...form, email: e })}
+          keyboardType='email-address'
+        />
+        
+        &lt;FormField
+          title='Password'
+          value={form.password}
+          handleChangeText={(e) => setForm({ ...form, password: e })}
+        />
+        
+        &lt;CustomButton
+          title='Sign In'
+          handlePress={submit}
+          containerStyles={styles.buttonContainer}
+          isLoading={isSubmitting}
+        />
+        
+        &lt;View>
+          &lt;Text style={styles.signUpText}>Do not have an account?&lt;/Text>
+          &lt;TouchableOpacity style={styles.signUpLinkContainer}>
+            &lt;Link href='/sign-up' style={styles.signUpLink}>Sign Up&lt;/Link>
+          &lt;/TouchableOpacity>  
+        &lt;/View>    
+      &lt;/View>
+    &lt;/SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'black',
+  },
+  testBox: {
+    borderWidth: 1,
+    borderColor: 'red',
+    width: 100,
+    height: 100,
+    backgroundColor: '#FFFAE7',
+  },
+  testText: {
+    color: 'blue',
+    fontSize: 20,
+  },
+  formContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 32,
+  },
+  logoContainer: {
+    alignItems: 'center',
+    marginBottom: 28,
+  },
+  logo: {
+    width: 200,
+    height: 156,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 8,
+    textAlign: 'center',
+    color: 'white',
+  },
+  buttonContainer: {
+    marginTop: 28,
+  },
+  signUpText: {
+    color: 'white',
+    textAlign: 'center',
+    marginTop: 16,
+  },
+  signUpLinkContainer: {
+    marginTop: 16,
+  },
+  signUpLink: {
+    color: 'blue',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    textDecorationLine: 'underline',
+  },
+});
+
+export default SignIn;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AuthLayout">AuthLayout</a></li><li><a href="global.html#CreateSplit">CreateSplit</a></li><li><a href="global.html#CustomButton">CustomButton</a></li><li><a href="global.html#FormField">FormField</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#ManageWorkout">ManageWorkout</a></li><li><a href="global.html#RootLayout">RootLayout</a></li><li><a href="global.html#SignIn">SignIn</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#TabsLayout">TabsLayout</a></li><li><a href="global.html#Timer">Timer</a></li><li><a href="global.html#WorkoutLayout">WorkoutLayout</a></li><li><a href="global.html#isValidEmail">isValidEmail</a></li><li><a href="global.html#submit">submit</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Wed Aug 07 2024 04:34:23 GMT+0100 (British Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

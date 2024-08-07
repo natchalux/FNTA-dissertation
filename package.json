@@ -7,7 +7,8 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
-    "test": "jest"
+    "test": "jest",
+    "docs": "jsdoc -d docs --configure jsdocConf.json"
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "^4.6.3",
@@ -32,6 +33,8 @@
     "@babel/core": "^7.20.0",
     "@babel/preset-env": "^7.25.3",
     "@babel/preset-react": "^7.24.7",
+    "docdash": "^2.0.2",
+    "jsdoc": "^4.0.3",
     "metro-react-native-babel-preset": "^0.77.0"
   },
   "private": true
