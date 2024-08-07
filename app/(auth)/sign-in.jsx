@@ -26,15 +26,33 @@ import logo from '../../assets/logo.png';
  */
 
 const SignIn = () => {
+  // access global context for state of the user, preventing logout automatically
   const { setUser, setIsLogged } = useGlobalContext();
   const [form, setForm] = useState({ email: '', password: '' });
+  // useState to track whether the form are submitting
   const [isSubmitting, setSubmitting] = useState(false);
 
+   /**
+   * Validates an email address.
+   * 
+   * @function isValidEmail
+   * @param {string} email - The email address that are going to be evaluated
+   * @returns {boolean} - return true upon validation, else-false
+   */
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
+  /**
+   * Handles form submission for sign-in.
+   * 
+   * Validates the form, attempts to sign in the user,
+   * if the sign in successful, router will redirect the user to the homepage
+   * 
+   * @function submit
+   * @throws {Error} If sign-in fails
+   */
   const submit = async () => {
     if (!form.email || !form.password) {
       Alert.alert('Error', 'Fill in all the fields');

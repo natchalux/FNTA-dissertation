@@ -53,8 +53,7 @@ const SignUp = () => {
    * 
    * Validates the form, attempts to sign in the user,
    * if the sign in successful, router will redirect the user to the homepage
-   * 
-   * @async function
+   *
    * @function submit
    * @throws {Error} If sign-up fails
    */
