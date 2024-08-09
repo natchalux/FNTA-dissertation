@@ -26,7 +26,7 @@ const CustomButton = ({
   handlePress, 
   containerStyles, 
   isLoading = false, 
-  bgColor = '#60A5FA', // Default color for bg-blue-400
+  bgColor = '#60A5FA',
   style
 }) => {
   return (

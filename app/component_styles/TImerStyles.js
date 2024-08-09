@@ -115,6 +115,9 @@ const timerStyles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 4,
   },
+  presetContainer: {
+    paddingVertical: 20,  // Add padding to increase space overall
+  },
 });
 
 export default timerStyles;

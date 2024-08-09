@@ -137,8 +137,8 @@ const Timer = () => {
             <Text style={timerStyles.buttonText}>Reset</Text>
           </TouchableOpacity>
         </View>
-        <View>
-          <Text style={timerStyles.presetHeader}>Or choose our resting preset:</Text>
+        <View style={timerStyles.presetContainer}>
+          <Text style={timerStyles.presetHeader}>Or choose our resting timer preset:</Text>
           <Pressable onPress={handleTimerSheet}>
             <Text style={timerStyles.presetInfo}>What is this?</Text>
           </Pressable>
