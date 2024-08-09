@@ -1,6 +1,6 @@
-import { TouchableOpacity, StyleSheet } from 'react-native';
-import { View, Text } from 'react-native';
+import { TouchableOpacity, Text } from 'react-native';
 import React from 'react';
+import customButtonStyles from '../app/component_styles/CustomButtonStyles';
 
 /**
  * CustomButton 
@@ -17,7 +17,7 @@ import React from 'react';
  * @param {Function} props.handlePress - Function to call when the button is pressed
  * @param {string} [props.containerStyles] - Styles for button
  * @param {boolean} [props.isLoading=false] - Determine the loading state of the button 
- * @param {Object} [props.style] - Additional styles for the button
+ * @param {Object} [props.style] - Additional customButtonStyles for the button
  * 
  * @returns {JSX.Element} The rendered CustomButton component
  */
@@ -34,35 +34,17 @@ const CustomButton = ({
       onPress={handlePress}
       activeOpacity={0.5}
       style={[
-        styles.button, 
+        customButtonStyles.button, 
         { backgroundColor: bgColor }, 
         containerStyles, 
-        isLoading && styles.loading,
+        isLoading && customButtonStyles.loading,
         style
       ]}
       disabled={isLoading}
     >
-      <Text style={styles.text}>{title}</Text>
+      <Text style={customButtonStyles.text}>{title}</Text>
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  button: {
-    borderRadius: 16,
-    minHeight: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-  },
-  text: {
-    fontWeight: 'bold',
-    fontSize: 18,
-    color: '#fff',
-  },
-  loading: {
-    opacity: 0.5,
-  },
-});
 
 export default CustomButton;

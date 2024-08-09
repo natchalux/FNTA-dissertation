@@ -4,7 +4,7 @@ import {
   Text, 
   SafeAreaView, 
   TouchableOpacity,
-  StyleSheet
+  homeStylesheet
 } from 'react-native';
 import { 
   getCurrentUser, 
@@ -15,7 +15,7 @@ import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import CreateSplit from '../../components/CreateSplit';
 import { useGlobalContext } from '../../context/GlobalProvider';
-
+import homeStyles from '../component_styles/HomeStyles';
 /**
  * Home Component
  * 
@@ -120,17 +120,17 @@ const Home = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>FNTA: Fitness Note Taking App</Text>
-      <Text style={styles.version}>Version 1.0.0</Text>
+    <SafeAreaView style={homeStyles.container}>
+      <Text style={homeStyles.title}>FNTA: Fitness Note Taking App</Text>
+      <Text style={homeStyles.version}>Version 1.0.0</Text>
       <StatusBar style="light" />
-      <View style={styles.content}>
-        <Text style={styles.timer}>
+      <View style={homeStyles.content}>
+        <Text style={homeStyles.timer}>
           Time Elapsed: {formatTime(timeElapsed)}
         </Text>
-        <Text style={styles.subtitle}>Workout records:</Text>
-        <TouchableOpacity style={styles.addButton} onPress={handleAddSplit}>
-          <Text style={styles.addButtonText}>+ Add new split</Text>
+        <Text style={homeStyles.subtitle}>Workout records:</Text>
+        <TouchableOpacity style={homeStyles.addButton} onPress={handleAddSplit}>
+          <Text style={homeStyles.addButtonText}>+ Add new split</Text>
         </TouchableOpacity>
       
         <CreateSplit
@@ -147,15 +147,15 @@ const Home = () => {
           onBackToStep1={() => setStep(1)}
           onDoneStep2={handleDoneStepTwo}
         />
-        <View style={styles.workoutList}>
-          <Text style={styles.currentProgram}>Your Current Program:</Text>
+        <View style={homeStyles.workoutList}>
+          <Text style={homeStyles.currentProgram}>Your Current Program:</Text>
             {workouts.map((workout, index) => (
               <TouchableOpacity 
                 key={workout.$id || index} 
-                style={styles.workoutItem}
+                style={homeStyles.workoutItem}
                 onPress={() => handleSplitPress(workout)}
               >
-                <Text style={styles.workoutItemText}>{workout.workout_name}</Text>
+                <Text style={homeStyles.workoutItemText}>{workout.workout_name}</Text>
               </TouchableOpacity>
             ))}
         </View>
@@ -163,69 +163,5 @@ const Home = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'black',
-  },
-  title: {
-    fontSize: 24,
-    color: '#60A5FA',
-    fontWeight: '600',
-    marginTop: 20,
-    marginLeft: 20,
-  },
-  version: {
-    fontSize: 12,
-    color: '#D1D5DB',
-    fontWeight: '200',
-    marginLeft: 20,
-  },
-  content: {
-    flex: 1,
-    padding: 20,
-  },
-  timer: {
-    fontSize: 24,
-    color: 'white',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  subtitle: {
-    fontSize: 18,
-    color: 'white',
-    marginBottom: 10,
-  },
-  addButton: {
-    backgroundColor: '#D1D5DB',
-    padding: 16,
-    borderRadius: 8,
-  },
-  addButtonText: {
-    color: 'black',
-    textAlign: 'center',
-    fontSize: 16,
-  },
-  workoutList: {
-    flex: 1,
-    marginTop: 20,
-  },
-  currentProgram: {
-    fontSize: 18,
-    color: 'white',
-    marginBottom: 10,
-  },
-  workoutItem: {
-    backgroundColor: '#374151',
-    padding: 16,
-    borderRadius: 8,
-    marginBottom: 10,
-  },
-  workoutItemText: {
-    color: 'white',
-    fontSize: 16,
-  },
-});
 
 export default Home;

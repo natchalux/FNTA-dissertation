@@ -5,12 +5,12 @@ import {
     ScrollView,
     TouchableOpacity,
     TextInput,
-    Alert,
-    StyleSheet
+    Alert
 } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { fetchWorkout, createExerciseSet, fetchPreviousWeekData } from '../../lib/appwrite';
 import { useGlobalContext } from '../../context/GlobalProvider';
+import manageWorkoutStyles from '../component_styles/ManageWorkoutStyles';
 
 /**
  * ManageWorkout page
@@ -130,31 +130,31 @@ const ManageWorkout = () => {
     };
 
     return (
-        <ScrollView style={styles.container}>
-            <Text style={styles.title}>{workoutName}</Text>
-            <Text style={styles.weekNumber}>Week {weekNumber}</Text>
+        <ScrollView style={manageWorkoutStyles.container}>
+            <Text style={manageWorkoutStyles.title}>{workoutName}</Text>
+            <Text style={manageWorkoutStyles.weekNumber}>Week {weekNumber}</Text>
             {isLoading && (
-                <Text style={styles.loadingText}>Loading...</Text>
+                <Text style={manageWorkoutStyles.loadingText}>Loading...</Text>
             )}
             {workout && workout.exercises && (
                 <>
-                    <Text style={styles.subtitle}>Exercises:</Text>
+                    <Text style={manageWorkoutStyles.subtitle}>Exercises:</Text>
                     {workout.exercises.map((exercise, index) => (
-                        <View key={index} style={styles.exerciseContainer}>
-                            <Text style={styles.exerciseName}>{exercise.exercise_name}</Text>
-                            <View style={styles.setsContainer}>
+                        <View key={index} style={manageWorkoutStyles.exerciseContainer}>
+                            <Text style={manageWorkoutStyles.exerciseName}>{exercise.exercise_name}</Text>
+                            <View style={manageWorkoutStyles.setsContainer}>
                                 {inputSets[exercise.exerciseId] && (
-                                    <View style={styles.gridContainer}>
+                                    <View style={manageWorkoutStyles.gridContainer}>
                                         {inputSets[exercise.exerciseId].map((set, i) => (
-                                            <View key={i} style={styles.setContainer}>
+                                            <View key={i} style={manageWorkoutStyles.setContainer}>
                                                 <TextInput
-                                                    style={styles.input}
+                                                    style={manageWorkoutStyles.input}
                                                     placeholder="Weight"
                                                     value={set.weight}
                                                     onChangeText={(value) => handleInputChange(exercise.exerciseId, i, 'weight', value)}
                                                 />
                                                 <TextInput
-                                                    style={styles.input}
+                                                    style={manageWorkoutStyles.input}
                                                     placeholder="Reps"
                                                     value={set.reps}
                                                     onChangeText={(value) => handleInputChange(exercise.exerciseId, i, 'reps', value)}
@@ -165,145 +165,39 @@ const ManageWorkout = () => {
                                 )}
                             </View>
                             {previousWeekData[exercise.exerciseId] && previousWeekData[exercise.exerciseId].length > 0 && (
-                                <Text style={styles.previousWeekData}>
+                                <Text style={manageWorkoutStyles.previousWeekData}>
                                     Previous week({Number(weekNumber) - 1}): {previousWeekData[exercise.exerciseId].map(set => set.weight).join(' ')} | {previousWeekData[exercise.exerciseId].map(set => set.reps).join(' ')}
                                 </Text>
                             )}
                             <TouchableOpacity
-                                style={styles.addButton}
+                                style={manageWorkoutStyles.addButton}
                                 onPress={() => addSet(exercise.exerciseId)}
                             >
-                                <Text style={styles.addButtonText}>Add Set</Text>
+                                <Text style={manageWorkoutStyles.addButtonText}>Add Set</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                style={styles.logButton}
+                                style={manageWorkoutStyles.logButton}
                                 onPress={saveWorkoutSets}
                             >
-                                <Text style={styles.logButtonText}>Log Set</Text>
+                                <Text style={manageWorkoutStyles.logButtonText}>Log Set</Text>
                             </TouchableOpacity>
                         </View>
                     ))}
                 </>
             )}
             {workout && !workout.exercises && (
-                <Text style={styles.noExercisesText}>No exercises found for this workout.</Text>
+                <Text style={manageWorkoutStyles.noExercisesText}>No exercises found for this workout.</Text>
             )}
-            <View style={styles.newSessionContainer}>
+            <View style={manageWorkoutStyles.newSessionContainer}>
                 <TouchableOpacity
-                    style={styles.newSessionButton}
+                    style={manageWorkoutStyles.newSessionButton}
                     onPress={startNewSession}
                 >
-                    <Text style={styles.newSessionButtonText}>New Session</Text>
+                    <Text style={manageWorkoutStyles.newSessionButtonText}>New Session</Text>
                 </TouchableOpacity>
             </View>
         </ScrollView>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: 'black',
-        padding: 20,
-    },
-    title: {
-        fontSize: 24,
-        color: 'white',
-        marginBottom: 20,
-    },
-    weekNumber: {
-        fontSize: 18,
-        color: 'white',
-        marginBottom: 20,
-    },
-    loadingText: {
-        fontSize: 18,
-        color: 'white',
-    },
-    subtitle: {
-        fontSize: 18,
-        color: 'white',
-        marginBottom: 10,
-    },
-    exerciseContainer: {
-        backgroundColor: '#374151',
-        padding: 16,
-        borderRadius: 8,
-        marginBottom: 20,
-    },
-    exerciseName: {
-        fontSize: 16,
-        color: 'white',
-        marginBottom: 10,
-    },
-    setsContainer: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-    },
-    gridContainer: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-    },
-    setContainer: {
-        width: '50%', // To achieve 2 columns layout
-        paddingHorizontal: 5,
-        marginBottom: 20,
-    },
-    input: {
-        backgroundColor: 'white',
-        color: 'black',
-        padding: 10,
-        borderRadius: 8,
-        marginBottom: 10,
-        width: '100%',
-        fontSize: 14,
-    },
-    previousWeekData: {
-        fontSize: 16,
-        color: 'white',
-        borderWidth: 1,
-        borderColor: 'red',
-        padding: 10,
-    },
-    addButton: {
-        backgroundColor: '#60A5FA',
-        padding: 10,
-        borderRadius: 8,
-        alignItems: 'center',
-        marginBottom: 10,
-    },
-    addButtonText: {
-        color: 'white',
-        fontSize: 16,
-    },
-    logButton: {
-        backgroundColor: '#10B981',
-        padding: 10,
-        borderRadius: 8,
-        alignItems: 'center',
-        marginBottom: 10,
-    },
-    logButtonText: {
-        color: 'white',
-        fontSize: 16,
-    },
-    noExercisesText: {
-        fontSize: 18,
-        color: 'white',
-    },
-    newSessionContainer: {
-        alignItems: 'flex-end',
-        padding: 20,
-    },
-    newSessionButton: {
-        backgroundColor: '#60A5FA',
-        padding: 20,
-        borderRadius: 8,
-    },
-    newSessionButtonText: {
-        color: 'white',
-        fontSize: 18,
-    },
-});
 
 export default ManageWorkout;

@@ -5,13 +5,13 @@ import {
   SafeAreaView, 
   TextInput, 
   TouchableOpacity,
-  Pressable,
-  StyleSheet
+  Pressable
 } from 'react-native';
 import { useGlobalContext } from '../../context/GlobalProvider';
 import CustomButton from '../../components/CustomButton';
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { timerPresetInfo } from '../../assets/textData/TimerPresetInfo';
+import timerStyles from '../component_styles/TImerStyles';
 
 /**
  * Timer page
@@ -79,20 +79,20 @@ const Timer = () => {
   const strengthRestTime = () => handlePresentRestTime(5);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        <Text style={styles.elapsedTime}>
+    <SafeAreaView style={timerStyles.container}>
+      <View style={timerStyles.content}>
+        <Text style={timerStyles.elapsedTime}>
           Time Elapsed: {formatTime(timeElapsed)}
         </Text>
-        <Text style={styles.header}>
+        <Text style={timerStyles.header}>
           Workout Interset Resting Time:
         </Text>
-        <Text style={styles.subheader}>
+        <Text style={timerStyles.subheader}>
           Set a resting time that you are going to be using for most of the time
         </Text>
-        <View style={styles.inputContainer}>
+        <View style={timerStyles.inputContainer}>
           <TextInput
-            style={styles.input}
+            style={timerStyles.input}
             keyboardType="numeric"
             value={minutes}
             onChangeText={setMinutes}
@@ -100,9 +100,9 @@ const Timer = () => {
             returnKeyType='done'
             placeholderTextColor="#666"
           />
-          <Text style={styles.colon}>:</Text>
+          <Text style={timerStyles.colon}>:</Text>
           <TextInput
-            style={styles.input}
+            style={timerStyles.input}
             keyboardType="numeric"
             value={seconds}
             onChangeText={setSeconds}
@@ -111,51 +111,51 @@ const Timer = () => {
             placeholderTextColor="#666"
           />
         </View>
-        <Text style={styles.timer}>
+        <Text style={timerStyles.timer}>
           {formatTime(restTime)}
         </Text>
-        <View style={styles.buttonRow}>
+        <View style={timerStyles.buttonRow}>
           {!isRunning ? (
             <TouchableOpacity
-              style={[styles.button, styles.startButton]}
+              style={[timerStyles.button, timerStyles.startButton]}
               onPress={startTimer}
             >
-              <Text style={styles.buttonText}>Start</Text>
+              <Text style={timerStyles.buttonText}>Start</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
-              style={[styles.button, styles.pauseButton]}
+              style={[timerStyles.button, timerStyles.pauseButton]}
               onPress={pauseTimer}
             >
-              <Text style={styles.buttonText}>Pause</Text>
+              <Text style={timerStyles.buttonText}>Pause</Text>
             </TouchableOpacity>
           )}
           <TouchableOpacity
-            style={[styles.button, styles.resetButton]}
+            style={[timerStyles.button, timerStyles.resetButton]}
             onPress={resetTimer}
           >
-            <Text style={styles.buttonText}>Reset</Text>
+            <Text style={timerStyles.buttonText}>Reset</Text>
           </TouchableOpacity>
         </View>
         <View>
-          <Text style={styles.presetHeader}>Or choose our resting preset:</Text>
+          <Text style={timerStyles.presetHeader}>Or choose our resting preset:</Text>
           <Pressable onPress={handleTimerSheet}>
-            <Text style={styles.presetInfo}>What is this?</Text>
+            <Text style={timerStyles.presetInfo}>What is this?</Text>
           </Pressable>
           <CustomButton
             title='Default: 2 minutes'
             handlePress={recommendedRestTime}
-            containerStyles={styles.customButton}
+            containertimerStyles={timerStyles.customButton}
           />
           <CustomButton
             title='Recommendation Hypertrophy: 3 minutes'
             handlePress={recommendedHypertrophy}
-            containerStyles={styles.customButton}
+            containertimerStyles={timerStyles.customButton}
           />
           <CustomButton
             title='Strength training: 5 minutes'
             handlePress={strengthRestTime}
-            containerStyles={styles.customButton}
+            containertimerStyles={timerStyles.customButton}
           />  
         </View>
       </View>
@@ -166,17 +166,17 @@ const Timer = () => {
         enablePanDownToClose={true}
       >
         <BottomSheetScrollView>
-          <View style={styles.sheetContent}>
-            <Text style={styles.sheetHeader}>Choose your resting time ⏰</Text>
+          <View style={timerStyles.sheetContent}>
+            <Text style={timerStyles.sheetHeader}>Choose your resting time ⏰</Text>
             {timerPresetInfo.map((section, index) => (
-              <View key={index} style={styles.sheetSection}>
-                {section.title && <Text style={styles.sheetSectionTitle}>{section.title}</Text>}
+              <View key={index} style={timerStyles.sheetSection}>
+                {section.title && <Text style={timerStyles.sheetSectionTitle}>{section.title}</Text>}
                 {Array.isArray(section.content) ? (
                   section.content.map((item, itemIndex) => (
-                    <Text key={itemIndex} style={styles.sheetSectionContent}>• {item}</Text>
+                    <Text key={itemIndex} style={timerStyles.sheetSectionContent}>• {item}</Text>
                   ))
                 ) : (
-                  <Text style={styles.sheetSectionContent}>{section.content}</Text>
+                  <Text style={timerStyles.sheetSectionContent}>{section.content}</Text>
                 )}
               </View>
             ))}
@@ -186,122 +186,5 @@ const Timer = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'black',
-  },
-  content: {
-    flex: 1,
-    padding: 20,
-  },
-  elapsedTime: {
-    fontSize: 24,
-    color: 'white',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  header: {
-    fontSize: 20,
-    color: 'white',
-    textAlign: 'center',
-    marginBottom: 10,
-  },
-  subheader: {
-    fontSize: 14,
-    color: 'white',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  input: {
-    backgroundColor: '#374151',
-    color: 'white',
-    textAlign: 'center',
-    width: 64,
-    height: 48,
-    marginHorizontal: 8,
-    borderRadius: 8,
-  },
-  colon: {
-    fontSize: 24,
-    color: 'white',
-  },
-  timer: {
-    fontSize: 36,
-    color: 'white',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  buttonRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: 20,
-  },
-  button: {
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 8,
-    marginHorizontal: 8,
-  },
-  startButton: {
-    backgroundColor: '#10B981',
-  },
-  pauseButton: {
-    backgroundColor: '#FBBF24',
-  },
-  resetButton: {
-    backgroundColor: '#EF4444',
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 18,
-    textAlign: 'center',
-  },
-  presetHeader: {
-    color: 'white',
-    fontSize: 16,
-    marginVertical: 10,
-  },
-  presetInfo: {
-    color: '#3B82F6',
-    fontSize: 16,
-    textDecorationLine: 'underline',
-    marginBottom: 20,
-  },
-  customButton: {
-    marginBottom: 10,
-    height: 80,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  sheetContent: {
-    flex: 1,
-    padding: 16,
-  },
-  sheetHeader: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
-  },
-  sheetSection: {
-    marginBottom: 16,
-  },
-  sheetSectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 8,
-  },
-  sheetSectionContent: {
-    fontSize: 16,
-    marginBottom: 4,
-  },
-});
 
 export default Timer;

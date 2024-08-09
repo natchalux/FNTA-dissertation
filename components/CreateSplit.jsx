@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, Modal, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Modal, TextInput, TouchableOpacity} from 'react-native';
+import createSplitStyles from '../app/component_styles/CreateSplitStyles';
 
 /**
  * CreateSplit 
@@ -50,49 +51,49 @@ const CreateSplit = ({
       visible={visible}
       onRequestClose={onClose}
     >
-      <View style={styles.container}>
-        <View style={styles.modalContent}>
+      <View style={createSplitStyles.container}>
+        <View style={createSplitStyles.modalContent}>
           {step === 1 ? (
             <>
-              <Text style={styles.title}>New split</Text>
+              <Text style={createSplitStyles.title}>New split</Text>
               <TextInput
-                style={styles.input}
+                style={createSplitStyles.input}
                 placeholder="Name of split: For example Push Day #1"
                 placeholderTextColor="#999"
                 value={splitName}
                 onChangeText={onSplitNameChange}
               />
-              <View style={styles.buttonRow}>
+              <View style={createSplitStyles.buttonRow}>
                 <TouchableOpacity onPress={onClose}>
-                  <Text style={styles.buttonText}>Cancel</Text>
+                  <Text style={createSplitStyles.buttonText}>Cancel</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={onDoneStep1}>
-                  <Text style={styles.buttonText}>Done</Text>
+                  <Text style={createSplitStyles.buttonText}>Done</Text>
                 </TouchableOpacity>
               </View>
             </>
           ) : (
             <>
-              <Text style={styles.title}>Add exercise</Text>
+              <Text style={createSplitStyles.title}>Add exercise</Text>
               <TextInput
-                style={styles.input}
+                style={createSplitStyles.input}
                 placeholder="Enter the exercise"
                 placeholderTextColor="#999"
                 value={exercise}
                 onChangeText={onExerciseChange}
               />
-              <TouchableOpacity style={styles.addButton} onPress={onAddExercise}>
-                <Text style={styles.addButtonText}>+ Add Exercise</Text>
+              <TouchableOpacity style={createSplitStyles.addButton} onPress={onAddExercise}>
+                <Text style={createSplitStyles.addButtonText}>+ Add Exercise</Text>
               </TouchableOpacity>
               {exercises.map((ex, index) => (
-                <Text key={index} style={styles.exerciseText}>• {ex}</Text>
+                <Text key={index} style={createSplitStyles.exerciseText}>• {ex}</Text>
               ))}
-              <View style={styles.buttonRow}>
+              <View style={createSplitStyles.buttonRow}>
                 <TouchableOpacity onPress={onBackToStep1}>
-                  <Text style={styles.buttonText}>Back</Text>
+                  <Text style={createSplitStyles.buttonText}>Back</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={onDoneStep2}>
-                  <Text style={styles.buttonText}>Done</Text>
+                  <Text style={createSplitStyles.buttonText}>Done</Text>
                 </TouchableOpacity>
               </View>
             </>
@@ -103,51 +104,5 @@ const CreateSplit = ({
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  modalContent: {
-    backgroundColor: '#1F2937',
-    padding: 20,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    margin: 10,
-  },
-  title: {
-    color: 'white',
-    fontSize: 20,
-    marginBottom: 16,
-  },
-  input: {
-    backgroundColor: '#4B5563',
-    color: 'white',
-    padding: 10,
-    borderRadius: 8,
-    marginBottom: 16,
-  },
-  buttonRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  buttonText: {
-    color: 'white',
-  },
-  addButton: {
-    backgroundColor: '#4B5563',
-    padding: 10,
-    borderRadius: 8,
-    marginBottom: 16,
-  },
-  addButtonText: {
-    color: 'white',
-  },
-  exerciseText: {
-    color: 'white',
-    marginBottom: 8,
-  },
-});
 
 export default CreateSplit;

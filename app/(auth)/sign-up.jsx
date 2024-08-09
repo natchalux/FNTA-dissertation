@@ -12,7 +12,7 @@ import CustomButton from '../../components/CustomButton';
 import { Link, router } from 'expo-router';
 import { createUser } from '../../lib/appwrite';
 import { useGlobalContext } from '../../context/GlobalProvider';
-
+import signUpStyles from '../component_styles/SignInStyles';
 /**
  * Sign Up Auth Page.
  * 
@@ -91,51 +91,44 @@ const SignUp = () => {
 
   return (
 
-  <SafeAreaView className="flex-1 bg-black">
-      <StatusBar style="light"/>
-        <View className="flex-1 justify-center px-8 ">
-          <View className = 'flex-row items-baseline'>
-          <Text className="text-3xl font-bold mb-6 text-left text-white">Sign Up To </Text>
-          <Text className="text-3xl font-bold mb-6 text-left text-blue-400">FNTA</Text>
-          </View>
-    {/*
-    Custom formfield components that can be reuse for several form field input text
-    */}   
-        <FormField
-        title = 'Username'
-        value = {form.username}
-        handleChangeText={(e) => setForm({...form, username: e})}
-        />
-
-        <FormField
-        title = 'Email'
-        value = {form.email}
-        handleChangeText={(e) => setForm({...form, email: e.trim()})}
+    <SafeAreaView style={signUpStyles.container}>
+    <StatusBar style="light"/>
+    <View style={signUpStyles.formContainer}>
+      <View style={signUpStyles.titleRow}>
+        <Text style={signUpStyles.title}>Sign Up to FNTA</Text>
+      </View>
+      <FormField
+        title='Username'
+        value={form.username}
+        handleChangeText={(e) => setForm({ ...form, username: e })}
+      />
+      <FormField
+        title='Email'
+        value={form.email}
+        handleChangeText={(e) => setForm({ ...form, email: e.trim() })}
         autoCapitalize="none"
         keyboardType="email-address"
-        />
-        
-        
-        <FormField
-        title = 'Password'
-        value = {form.password}
-        handleChangeText={(e) => setForm({...form, password: e})}
-        />
-        
-        <CustomButton
-        title= 'Sign Up'
+      />
+      <FormField
+        title='Password'
+        value={form.password}
+        handleChangeText={(e) => setForm({ ...form, password: e })}
+      />
+      <CustomButton
+        title='Sign Up'
         handlePress={submit}
-        containerStyles='mt-7'
-        isLoading={isSubmitting}/>
-        
-        <View>
-          <Text className='text-white text-center mt-4'>Got an account already?</Text>
-            <TouchableOpacity className='ml-2'>
-              <Link href='/sign-in' className='text-blue-400 text-center text-bold underline'>Sign In</Link>
-            </TouchableOpacity>  
-        </View>    
+        containerStyles={signUpStyles.buttonContainer}
+        isLoading={isSubmitting}
+      />
+      <View>
+        <Text style={signUpStyles.signUpText}>Got an account already?</Text>
+        <TouchableOpacity style={signUpStyles.signUpLinkContainer}>
+          <Link href='/sign-in' style={signUpStyles.signUpLink}>Sign In</Link>
+        </TouchableOpacity>
       </View>
-    </SafeAreaView>
-  );
-}
+    </View>
+  </SafeAreaView>
+);
+};
+
 export default SignUp

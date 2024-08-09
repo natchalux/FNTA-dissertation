@@ -2,10 +2,10 @@ import {
   View, 
   Text, 
   TextInput, 
-  TouchableOpacity, 
-  StyleSheet 
+  TouchableOpacity
 } from 'react-native'
 import React, { useState } from 'react'
+import formFieldStyles from '../app/component_styles/FormFieldStyles';
 
 /**
  * FormField Component
@@ -35,9 +35,9 @@ const FormField = ({
   const isPassword = title.toLowerCase() === 'password';
 
   return (
-    <View style={styles.container}>
+    <View style={formFieldStyles.container}>
       <TextInput
-        style={styles.input}
+        style={formFieldStyles.input}
         placeholder={title}
         value={value}
         onChangeText={handleChangeText}
@@ -48,9 +48,9 @@ const FormField = ({
       {isPassword && (
         <TouchableOpacity 
           onPress={() => setShowPassword(!showPassword)}
-          style={styles.showPasswordButton}
+          style={formFieldStyles.showPasswordButton}
         >
-          <Text style={styles.showPasswordText}>
+          <Text style={formFieldStyles.showPasswordText}>
             {showPassword ? 'Hide' : 'Show'}
           </Text>
         </TouchableOpacity>
@@ -59,33 +59,5 @@ const FormField = ({
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    position: 'relative',
-    marginBottom: 16,
-  },
-  input: {
-    width: '100%',
-    backgroundColor: '#4B5563',
-    color: '#F3F4F6',
-    borderColor: '#1F2937',
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    marginBottom: 16,
-  },
-  showPasswordButton: {
-    position: 'absolute',
-    right: 12,
-    top: '50%',
-    transform: [{ translateY: -12 }],
-  },
-  showPasswordText: {
-    fontSize: 14,
-    color: '#F3F4F6',
-    fontWeight: 'bold',
-  },
-});
 
 export default FormField;

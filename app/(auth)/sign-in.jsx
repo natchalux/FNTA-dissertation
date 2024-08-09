@@ -6,7 +6,7 @@ import {
   TouchableOpacity, 
   Image, 
   Alert,
-  StyleSheet
+  signInStylesheet
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Link, router } from 'expo-router';
@@ -15,7 +15,7 @@ import FormField from '../../components/FormField';
 import CustomButton from '../../components/CustomButton';
 import { useGlobalContext } from '../../context/GlobalProvider';
 import logo from '../../assets/logo.png';
-
+import signInStyles from '../component_styles/SignInStyles';
 /**
  * Sign In Auth Page.
  * 
@@ -85,18 +85,18 @@ const SignIn = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={signInStyles.container}>
 
       <StatusBar style="light" />
-      <View style={styles.formContainer}>
-        <View style={styles.logoContainer}>
+      <View style={signInStyles.formContainer}>
+        <View style={signInStyles.logoContainer}>
           <Image 
             source={logo} 
-            style={styles.logo}
+            style={signInStyles.logo}
           />
         </View>
         
-        <Text style={styles.title}>To continue please sign in</Text>
+        <Text style={signInStyles.title}>To continue please sign in</Text>
         
         <FormField
           title='Email'
@@ -114,74 +114,19 @@ const SignIn = () => {
         <CustomButton
           title='Sign In'
           handlePress={submit}
-          containerStyles={styles.buttonContainer}
+          containersignInStyles={signInStyles.buttonContainer}
           isLoading={isSubmitting}
         />
         
         <View>
-          <Text style={styles.signUpText}>Do not have an account?</Text>
-          <TouchableOpacity style={styles.signUpLinkContainer}>
-            <Link href='/sign-up' style={styles.signUpLink}>Sign Up</Link>
+          <Text style={signInStyles.signUpText}>Do not have an account?</Text>
+          <TouchableOpacity style={signInStyles.signUpLinkContainer}>
+            <Link href='/sign-up' style={signInStyles.signUpLink}>Sign Up</Link>
           </TouchableOpacity>  
         </View>    
       </View>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'black',
-  },
-  testBox: {
-    borderWidth: 1,
-    borderColor: 'red',
-    width: 100,
-    height: 100,
-    backgroundColor: '#FFFAE7',
-  },
-  testText: {
-    color: 'blue',
-    fontSize: 20,
-  },
-  formContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingHorizontal: 32,
-  },
-  logoContainer: {
-    alignItems: 'center',
-    marginBottom: 28,
-  },
-  logo: {
-    width: 200,
-    height: 156,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 8,
-    textAlign: 'center',
-    color: 'white',
-  },
-  buttonContainer: {
-    marginTop: 28,
-  },
-  signUpText: {
-    color: 'white',
-    textAlign: 'center',
-    marginTop: 16,
-  },
-  signUpLinkContainer: {
-    marginTop: 16,
-  },
-  signUpLink: {
-    color: 'blue',
-    textAlign: 'center',
-    fontWeight: 'bold',
-    textDecorationLine: 'underline',
-  },
-});
 
 export default SignIn;

@@ -1,10 +1,12 @@
-import { View, Text, SafeAreaView, Alert, StyleSheet } from 'react-native';
+import { View, Text, SafeAreaView, Alert, profileStylesheet } from 'react-native';
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { getCurrentUser, logOut } from '../../lib/appwrite';
 import { router } from 'expo-router';
 import CustomButton from '../../components/CustomButton';
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { projectInfo, appVersion } from '../../assets/textData/ProjectInfo';
+import profileStyles from '../component_styles/ProfileStyles';
+
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -55,24 +57,24 @@ const Profile = () => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        <Text style={styles.appTitle}>FNTA: Fitness Note Taking App</Text>
-        <Text style={styles.version}>Version {appVersion}</Text>
+    <SafeAreaView style={profileStyles.container}>
+      <View style={profileStyles.content}>
+        <Text style={profileStyles.appTitle}>FNTA: Fitness Note Taking App</Text>
+        <Text style={profileStyles.version}>Version {appVersion}</Text>
         {user ? (
-          <Text style={styles.welcome}>Welcome: {user.name}</Text>
+          <Text style={profileStyles.welcome}>Welcome: {user.name}</Text>
         ) : (
-          <Text style={styles.loading}>Loading username...</Text>
+          <Text style={profileStyles.loading}>Loading username...</Text>
         )}
         <CustomButton
           title='About this project'
           handlePress={handleOpenSheet}
-          containerStyles={styles.button}
+          containerprofileStyles={profileStyles.button}
         />
         <CustomButton
           title='Log Out'
-          bgColor='bg-red-400'
-          containerStyles={styles.button}
+          bgColor='#EF4444'
+          containerprofileStyles={profileStyles.button}
           handlePress={logout}
         />
       </View>
@@ -83,17 +85,17 @@ const Profile = () => {
         enablePanDownToClose={true}
       >
         <BottomSheetScrollView>
-          <View style={styles.sheetContent}>
-            <Text style={styles.sheetTitle}>About this project 🖥️</Text>
+          <View style={profileStyles.sheetContent}>
+            <Text style={profileStyles.sheetTitle}>About this project 🖥️</Text>
             {projectInfo.map((section, index) => (
-              <View key={index} style={styles.sheetSection}>
-                {section.title && <Text style={styles.sheetSectionTitle}>{section.title}</Text>}
+              <View key={index} style={profileStyles.sheetSection}>
+                {section.title && <Text style={profileStyles.sheetSectionTitle}>{section.title}</Text>}
                 {Array.isArray(section.content) ? (
                   section.content.map((item, itemIndex) => (
-                    <Text key={itemIndex} style={styles.sheetSectionContent}>• {item}</Text>
+                    <Text key={itemIndex} style={profileStyles.sheetSectionContent}>• {item}</Text>
                   ))
                 ) : (
-                  <Text style={styles.sheetSectionContent}>{section.content}</Text>
+                  <Text style={profileStyles.sheetSectionContent}>{section.content}</Text>
                 )}
               </View>
             ))}
@@ -103,58 +105,5 @@ const Profile = () => {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'black',
-  },
-  content: {
-    padding: 16,
-  },
-  appTitle: {
-    fontSize: 24,
-    color: '#60A5FA',
-    fontWeight: '600',
-  },
-  version: {
-    fontSize: 12,
-    color: '#D1D5DB',
-    fontWeight: '200',
-  },
-  welcome: {
-    fontSize: 18,
-    color: 'white',
-    marginTop: 20,
-  },
-  loading: {
-    fontSize: 24,
-    color: 'white',
-  },
-  button: {
-    marginTop: 20,
-  },
-  sheetContent: {
-    flex: 1,
-    padding: 16,
-  },
-  sheetTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
-  },
-  sheetSection: {
-    marginBottom: 16,
-  },
-  sheetSectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 8,
-  },
-  sheetSectionContent: {
-    fontSize: 16,
-    marginBottom: 4,
-  },
-});
 
 export default Profile;
