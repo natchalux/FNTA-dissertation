@@ -16,6 +16,7 @@ import { StatusBar } from 'expo-status-bar';
 import CreateSplit from '../../components/CreateSplit';
 import { useGlobalContext } from '../../context/GlobalProvider';
 import homeStyles from '../component_styles/HomeStyles';
+
 /**
  * Home Component
  * 
@@ -36,6 +37,13 @@ const Home = () => {
   const { timeElapsed, formatTime } = useGlobalContext();
 
   useEffect(() => {
+    /**
+     * Loads the user's workouts from the database.
+     * 
+     * This function is executed once when the component mounts and whenever
+     * the `loadWorkouts` function is called. It fetches the current user's 
+     * workouts and updates the state with the fetched data.
+     */
     const loadWorkouts = async () => {
       try {
         const currentUser = await getCurrentUser();
@@ -51,6 +59,12 @@ const Home = () => {
     loadWorkouts();
   }, []);
 
+  /**
+   * Opens the modal to add a new workout split.
+   * 
+   * This function sets the modal visibility to true and resets the state for the 
+   * workout creation process.
+   */
   const loadWorkouts = async () => {
     try {
       const currentUser = await getCurrentUser();
