@@ -1,15 +1,18 @@
 # Dissertation Project
 
-Welcome to the documentation for my dissertation project. This project focuses on the development and testing of a mobile application designed to help users manage their workouts efficiently.
+Welcome to the documentation for my dissertation project. 
+This project focuses on the development and testing of a mobile application called FNTA: Fitness note taking app which designed to help users manage their workout, tracking progress and creating resting timer.
 
 ## Overview
 
-The application provides a user-friendly interface to track progress, customize workouts, and compare performance over time. It includes features such as:
+The application provides a user-friendly interface to track progress, creating workout files, add your custom exercise and compare performance over time.
+It includes features such as:
 
 - **Logging Workout Sets**: Users can log each set of their workouts with details such as repetitions, weights, and rest periods.
 - **Workout Comparison**: The app enables users to compare their current workouts with those from previous weeks to monitor progress.
 - **Adding Extra Sets**: Users can add additional sets to their exercises dynamically.
-- **Customizable Workouts**: Users can create and customize workout names, exercises, and set configurations to suit their fitness goals.
+- **Customizable Workouts**: Users can create workout names, exercises, and set configurations to suit their fitness goals.
+- **Resting timer: Users can also create their custom resting timer which triggers automatically upon logging your set 
 
 ## Getting Started
 
