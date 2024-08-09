@@ -32,13 +32,14 @@
   Text, 
   View,
   Image,
-  StyleSheet
+  AppStylesheet
 } from 'react-native';
 import logo from '../assets/logo.png';
 import { StatusBar } from 'expo-status-bar';
 import { Redirect, router } from 'expo-router';
 import CustomButton from '../components/CustomButton';
 import { useGlobalContext } from '../context/GlobalProvider';
+import AppStyles from './component_styles/AppStyles';
 
 /**
  * 
@@ -63,20 +64,20 @@ export default function App() {
     return &lt;Redirect href='/home' />
 
   return (
-    &lt;SafeAreaView style={styles.container}>
-      &lt;ScrollView contentContainerStyle={styles.scrollView}>
-        &lt;View style={styles.innerContainer}>
+    &lt;SafeAreaView style={AppStyles.container}>
+      &lt;ScrollView contentContainerStyle={AppStyles.scrollView}>
+        &lt;View style={AppStyles.innerContainer}>
           &lt;Image 
             source={logo} 
-            style={styles.logo}
+            style={AppStyles.logo}
           />
-          &lt;Text style={styles.appTitle}>Fitness Note Taking App&lt;/Text>
-          &lt;View style={styles.buttonContainer}>
-            &lt;Text style={styles.signInPrompt}>Continue to your account&lt;/Text>
+          &lt;Text style={AppStyles.appTitle}>Fitness Note Taking App&lt;/Text>
+          &lt;View style={AppStyles.buttonContainer}>
+            &lt;Text style={AppStyles.signInPrompt}>Continue to your account&lt;/Text>
             &lt;CustomButton
               title='Sign In'
               handlePress={() => router.push('/sign-in')}
-              containerStyles={styles.signInButton}
+              containerAppStyles={AppStyles.signInButton}
             />
           &lt;/View>
         &lt;/View>
@@ -84,45 +85,8 @@ export default function App() {
       &lt;StatusBar style='light' /> 
     &lt;/SafeAreaView>
   )
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'black',
-  },
-  scrollView: {
-    height: '100%',
-  },
-  innerContainer: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 16,
-  },
-  logo: {
-    width: 200,
-    height: 156,
-  },
-  appTitle: {
-    fontSize: 14,
-    color: 'white',
-    marginBottom: 8,
-  },
-  buttonContainer: {
-    marginTop: 32,
-  },
-  signInPrompt: {
-    fontSize: 18,
-    color: 'white',
-    marginBottom: 8,
-  },
-  signInButton: {
-    marginTop: 28,
-  },
-});
 </code></pre>
         </article>
     </section>
@@ -133,13 +97,13 @@ const styles = StyleSheet.create({
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AuthLayout">AuthLayout</a></li><li><a href="global.html#CreateSplit">CreateSplit</a></li><li><a href="global.html#CustomButton">CustomButton</a></li><li><a href="global.html#FormField">FormField</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#ManageWorkout">ManageWorkout</a></li><li><a href="global.html#RootLayout">RootLayout</a></li><li><a href="global.html#SignIn">SignIn</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#TabsLayout">TabsLayout</a></li><li><a href="global.html#Timer">Timer</a></li><li><a href="global.html#WorkoutLayout">WorkoutLayout</a></li><li><a href="global.html#isValidEmail">isValidEmail</a></li><li><a href="global.html#submit">submit</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AuthLayout">AuthLayout</a></li><li><a href="global.html#CreateSplit">CreateSplit</a></li><li><a href="global.html#CustomButton">CustomButton</a></li><li><a href="global.html#FormField">FormField</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#ManageWorkout">ManageWorkout</a></li><li><a href="global.html#RootLayout">RootLayout</a></li><li><a href="global.html#SignIn">SignIn</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#TabsLayout">TabsLayout</a></li><li><a href="global.html#Timer">Timer</a></li><li><a href="global.html#WorkoutLayout">WorkoutLayout</a></li><li><a href="global.html#addExerciseToWorkout">addExerciseToWorkout</a></li><li><a href="global.html#createExercise">createExercise</a></li><li><a href="global.html#createExerciseSet">createExerciseSet</a></li><li><a href="global.html#createUser">createUser</a></li><li><a href="global.html#createWorkout">createWorkout</a></li><li><a href="global.html#fetchPreviousWeekData">fetchPreviousWeekData</a></li><li><a href="global.html#fetchWorkout">fetchWorkout</a></li><li><a href="global.html#getCurrentUser">getCurrentUser</a></li><li><a href="global.html#getUserWorkouts">getUserWorkouts</a></li><li><a href="global.html#isValidEmail">isValidEmail</a></li><li><a href="global.html#logOut">logOut</a></li><li><a href="global.html#signIn">signIn</a></li><li><a href="global.html#submit">submit</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Wed Aug 07 2024 05:16:30 GMT+0100 (British Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Fri Aug 09 2024 03:56:09 GMT+0100 (British Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

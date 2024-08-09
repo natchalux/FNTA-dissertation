@@ -5,9 +5,10 @@ import { Stack } from 'expo-router'
 /**
  * AuthLayout component for handling authentication-related screens.
  * 
- * This component sets up a Stack navigator for sign-in and sign-up screens,
+ * This component sets up a stack navigator for sign-in and sign-up screens,
  * and configures the status bar style.
  * 
+ * @component
  * @returns {React.ReactElement} The rendered AuthLayout component.
  */
 

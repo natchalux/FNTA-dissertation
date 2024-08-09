@@ -33,13 +33,13 @@ import {
   SafeAreaView, 
   TextInput, 
   TouchableOpacity,
-  Pressable,
-  StyleSheet
+  Pressable
 } from 'react-native';
 import { useGlobalContext } from '../../context/GlobalProvider';
 import CustomButton from '../../components/CustomButton';
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { timerPresetInfo } from '../../assets/textData/TimerPresetInfo';
+import timerStyles from '../component_styles/TImerStyles';
 
 /**
  * Timer page
@@ -107,20 +107,20 @@ const Timer = () => {
   const strengthRestTime = () => handlePresentRestTime(5);
 
   return (
-    &lt;SafeAreaView style={styles.container}>
-      &lt;View style={styles.content}>
-        &lt;Text style={styles.elapsedTime}>
+    &lt;SafeAreaView style={timerStyles.container}>
+      &lt;View style={timerStyles.content}>
+        &lt;Text style={timerStyles.elapsedTime}>
           Time Elapsed: {formatTime(timeElapsed)}
         &lt;/Text>
-        &lt;Text style={styles.header}>
+        &lt;Text style={timerStyles.header}>
           Workout Interset Resting Time:
         &lt;/Text>
-        &lt;Text style={styles.subheader}>
+        &lt;Text style={timerStyles.subheader}>
           Set a resting time that you are going to be using for most of the time
         &lt;/Text>
-        &lt;View style={styles.inputContainer}>
+        &lt;View style={timerStyles.inputContainer}>
           &lt;TextInput
-            style={styles.input}
+            style={timerStyles.input}
             keyboardType="numeric"
             value={minutes}
             onChangeText={setMinutes}
@@ -128,9 +128,9 @@ const Timer = () => {
             returnKeyType='done'
             placeholderTextColor="#666"
           />
-          &lt;Text style={styles.colon}>:&lt;/Text>
+          &lt;Text style={timerStyles.colon}>:&lt;/Text>
           &lt;TextInput
-            style={styles.input}
+            style={timerStyles.input}
             keyboardType="numeric"
             value={seconds}
             onChangeText={setSeconds}
@@ -139,51 +139,51 @@ const Timer = () => {
             placeholderTextColor="#666"
           />
         &lt;/View>
-        &lt;Text style={styles.timer}>
+        &lt;Text style={timerStyles.timer}>
           {formatTime(restTime)}
         &lt;/Text>
-        &lt;View style={styles.buttonRow}>
+        &lt;View style={timerStyles.buttonRow}>
           {!isRunning ? (
             &lt;TouchableOpacity
-              style={[styles.button, styles.startButton]}
+              style={[timerStyles.button, timerStyles.startButton]}
               onPress={startTimer}
             >
-              &lt;Text style={styles.buttonText}>Start&lt;/Text>
+              &lt;Text style={timerStyles.buttonText}>Start&lt;/Text>
             &lt;/TouchableOpacity>
           ) : (
             &lt;TouchableOpacity
-              style={[styles.button, styles.pauseButton]}
+              style={[timerStyles.button, timerStyles.pauseButton]}
               onPress={pauseTimer}
             >
-              &lt;Text style={styles.buttonText}>Pause&lt;/Text>
+              &lt;Text style={timerStyles.buttonText}>Pause&lt;/Text>
             &lt;/TouchableOpacity>
           )}
           &lt;TouchableOpacity
-            style={[styles.button, styles.resetButton]}
+            style={[timerStyles.button, timerStyles.resetButton]}
             onPress={resetTimer}
           >
-            &lt;Text style={styles.buttonText}>Reset&lt;/Text>
+            &lt;Text style={timerStyles.buttonText}>Reset&lt;/Text>
           &lt;/TouchableOpacity>
         &lt;/View>
-        &lt;View>
-          &lt;Text style={styles.presetHeader}>Or choose our resting preset:&lt;/Text>
+        &lt;View style={timerStyles.presetContainer}>
+          &lt;Text style={timerStyles.presetHeader}>Or choose our resting timer preset:&lt;/Text>
           &lt;Pressable onPress={handleTimerSheet}>
-            &lt;Text style={styles.presetInfo}>What is this?&lt;/Text>
+            &lt;Text style={timerStyles.presetInfo}>What is this?&lt;/Text>
           &lt;/Pressable>
           &lt;CustomButton
             title='Default: 2 minutes'
             handlePress={recommendedRestTime}
-            containerStyles={styles.customButton}
+            containertimerStyles={timerStyles.customButton}
           />
           &lt;CustomButton
             title='Recommendation Hypertrophy: 3 minutes'
             handlePress={recommendedHypertrophy}
-            containerStyles={styles.customButton}
+            containertimerStyles={timerStyles.customButton}
           />
           &lt;CustomButton
             title='Strength training: 5 minutes'
             handlePress={strengthRestTime}
-            containerStyles={styles.customButton}
+            containertimerStyles={timerStyles.customButton}
           />  
         &lt;/View>
       &lt;/View>
@@ -194,17 +194,17 @@ const Timer = () => {
         enablePanDownToClose={true}
       >
         &lt;BottomSheetScrollView>
-          &lt;View style={styles.sheetContent}>
-            &lt;Text style={styles.sheetHeader}>Choose your resting time ⏰&lt;/Text>
+          &lt;View style={timerStyles.sheetContent}>
+            &lt;Text style={timerStyles.sheetHeader}>Choose your resting time ⏰&lt;/Text>
             {timerPresetInfo.map((section, index) => (
-              &lt;View key={index} style={styles.sheetSection}>
-                {section.title &amp;&amp; &lt;Text style={styles.sheetSectionTitle}>{section.title}&lt;/Text>}
+              &lt;View key={index} style={timerStyles.sheetSection}>
+                {section.title &amp;&amp; &lt;Text style={timerStyles.sheetSectionTitle}>{section.title}&lt;/Text>}
                 {Array.isArray(section.content) ? (
                   section.content.map((item, itemIndex) => (
-                    &lt;Text key={itemIndex} style={styles.sheetSectionContent}>• {item}&lt;/Text>
+                    &lt;Text key={itemIndex} style={timerStyles.sheetSectionContent}>• {item}&lt;/Text>
                   ))
                 ) : (
-                  &lt;Text style={styles.sheetSectionContent}>{section.content}&lt;/Text>
+                  &lt;Text style={timerStyles.sheetSectionContent}>{section.content}&lt;/Text>
                 )}
               &lt;/View>
             ))}
@@ -214,123 +214,6 @@ const Timer = () => {
     &lt;/SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'black',
-  },
-  content: {
-    flex: 1,
-    padding: 20,
-  },
-  elapsedTime: {
-    fontSize: 24,
-    color: 'white',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  header: {
-    fontSize: 20,
-    color: 'white',
-    textAlign: 'center',
-    marginBottom: 10,
-  },
-  subheader: {
-    fontSize: 14,
-    color: 'white',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  input: {
-    backgroundColor: '#374151',
-    color: 'white',
-    textAlign: 'center',
-    width: 64,
-    height: 48,
-    marginHorizontal: 8,
-    borderRadius: 8,
-  },
-  colon: {
-    fontSize: 24,
-    color: 'white',
-  },
-  timer: {
-    fontSize: 36,
-    color: 'white',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  buttonRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: 20,
-  },
-  button: {
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 8,
-    marginHorizontal: 8,
-  },
-  startButton: {
-    backgroundColor: '#10B981',
-  },
-  pauseButton: {
-    backgroundColor: '#FBBF24',
-  },
-  resetButton: {
-    backgroundColor: '#EF4444',
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 18,
-    textAlign: 'center',
-  },
-  presetHeader: {
-    color: 'white',
-    fontSize: 16,
-    marginVertical: 10,
-  },
-  presetInfo: {
-    color: '#3B82F6',
-    fontSize: 16,
-    textDecorationLine: 'underline',
-    marginBottom: 20,
-  },
-  customButton: {
-    marginBottom: 10,
-    height: 80,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  sheetContent: {
-    flex: 1,
-    padding: 16,
-  },
-  sheetHeader: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
-  },
-  sheetSection: {
-    marginBottom: 16,
-  },
-  sheetSectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 8,
-  },
-  sheetSectionContent: {
-    fontSize: 16,
-    marginBottom: 4,
-  },
-});
 
 export default Timer;
 </code></pre>
@@ -343,13 +226,13 @@ export default Timer;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AuthLayout">AuthLayout</a></li><li><a href="global.html#CreateSplit">CreateSplit</a></li><li><a href="global.html#CustomButton">CustomButton</a></li><li><a href="global.html#FormField">FormField</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#ManageWorkout">ManageWorkout</a></li><li><a href="global.html#RootLayout">RootLayout</a></li><li><a href="global.html#SignIn">SignIn</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#TabsLayout">TabsLayout</a></li><li><a href="global.html#Timer">Timer</a></li><li><a href="global.html#WorkoutLayout">WorkoutLayout</a></li><li><a href="global.html#isValidEmail">isValidEmail</a></li><li><a href="global.html#submit">submit</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AuthLayout">AuthLayout</a></li><li><a href="global.html#CreateSplit">CreateSplit</a></li><li><a href="global.html#CustomButton">CustomButton</a></li><li><a href="global.html#FormField">FormField</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#ManageWorkout">ManageWorkout</a></li><li><a href="global.html#RootLayout">RootLayout</a></li><li><a href="global.html#SignIn">SignIn</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#TabsLayout">TabsLayout</a></li><li><a href="global.html#Timer">Timer</a></li><li><a href="global.html#WorkoutLayout">WorkoutLayout</a></li><li><a href="global.html#addExerciseToWorkout">addExerciseToWorkout</a></li><li><a href="global.html#createExercise">createExercise</a></li><li><a href="global.html#createExerciseSet">createExerciseSet</a></li><li><a href="global.html#createUser">createUser</a></li><li><a href="global.html#createWorkout">createWorkout</a></li><li><a href="global.html#fetchPreviousWeekData">fetchPreviousWeekData</a></li><li><a href="global.html#fetchWorkout">fetchWorkout</a></li><li><a href="global.html#getCurrentUser">getCurrentUser</a></li><li><a href="global.html#getUserWorkouts">getUserWorkouts</a></li><li><a href="global.html#isValidEmail">isValidEmail</a></li><li><a href="global.html#logOut">logOut</a></li><li><a href="global.html#signIn">signIn</a></li><li><a href="global.html#submit">submit</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Wed Aug 07 2024 05:16:30 GMT+0100 (British Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Fri Aug 09 2024 03:56:09 GMT+0100 (British Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

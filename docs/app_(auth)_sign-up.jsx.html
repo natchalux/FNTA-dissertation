@@ -40,7 +40,7 @@ import CustomButton from '../../components/CustomButton';
 import { Link, router } from 'expo-router';
 import { createUser } from '../../lib/appwrite';
 import { useGlobalContext } from '../../context/GlobalProvider';
-
+import signUpStyles from '../component_styles/SignInStyles';
 /**
  * Sign Up Auth Page.
  * 
@@ -119,53 +119,46 @@ const SignUp = () => {
 
   return (
 
-  &lt;SafeAreaView className="flex-1 bg-black">
-      &lt;StatusBar style="light"/>
-        &lt;View className="flex-1 justify-center px-8 ">
-          &lt;View className = 'flex-row items-baseline'>
-          &lt;Text className="text-3xl font-bold mb-6 text-left text-white">Sign Up To &lt;/Text>
-          &lt;Text className="text-3xl font-bold mb-6 text-left text-blue-400">FNTA&lt;/Text>
-          &lt;/View>
-    {/*
-    Custom formfield components that can be reuse for several form field input text
-    */}   
-        &lt;FormField
-        title = 'Username'
-        value = {form.username}
-        handleChangeText={(e) => setForm({...form, username: e})}
-        />
-
-        &lt;FormField
-        title = 'Email'
-        value = {form.email}
-        handleChangeText={(e) => setForm({...form, email: e.trim()})}
+    &lt;SafeAreaView style={signUpStyles.container}>
+    &lt;StatusBar style="light"/>
+    &lt;View style={signUpStyles.formContainer}>
+      &lt;View style={signUpStyles.titleRow}>
+        &lt;Text style={signUpStyles.title}>Sign Up to FNTA&lt;/Text>
+      &lt;/View>
+      &lt;FormField
+        title='Username'
+        value={form.username}
+        handleChangeText={(e) => setForm({ ...form, username: e })}
+      />
+      &lt;FormField
+        title='Email'
+        value={form.email}
+        handleChangeText={(e) => setForm({ ...form, email: e.trim() })}
         autoCapitalize="none"
         keyboardType="email-address"
-        />
-        
-        
-        &lt;FormField
-        title = 'Password'
-        value = {form.password}
-        handleChangeText={(e) => setForm({...form, password: e})}
-        />
-        
-        &lt;CustomButton
-        title= 'Sign Up'
+      />
+      &lt;FormField
+        title='Password'
+        value={form.password}
+        handleChangeText={(e) => setForm({ ...form, password: e })}
+      />
+      &lt;CustomButton
+        title='Sign Up'
         handlePress={submit}
-        containerStyles='mt-7'
-        isLoading={isSubmitting}/>
-        
-        &lt;View>
-          &lt;Text className='text-white text-center mt-4'>Got an account already?&lt;/Text>
-            &lt;TouchableOpacity className='ml-2'>
-              &lt;Link href='/sign-in' className='text-blue-400 text-center text-bold underline'>Sign In&lt;/Link>
-            &lt;/TouchableOpacity>  
-        &lt;/View>    
+        containerStyles={signUpStyles.buttonContainer}
+        isLoading={isSubmitting}
+      />
+      &lt;View>
+        &lt;Text style={signUpStyles.signUpText}>Got an account already?&lt;/Text>
+        &lt;TouchableOpacity style={signUpStyles.signUpLinkContainer}>
+          &lt;Link href='/sign-in' style={signUpStyles.signUpLink}>Sign In&lt;/Link>
+        &lt;/TouchableOpacity>
       &lt;/View>
-    &lt;/SafeAreaView>
-  );
-}
+    &lt;/View>
+  &lt;/SafeAreaView>
+);
+};
+
 export default SignUp
 </code></pre>
         </article>
@@ -177,13 +170,13 @@ export default SignUp
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AuthLayout">AuthLayout</a></li><li><a href="global.html#CreateSplit">CreateSplit</a></li><li><a href="global.html#CustomButton">CustomButton</a></li><li><a href="global.html#FormField">FormField</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#ManageWorkout">ManageWorkout</a></li><li><a href="global.html#RootLayout">RootLayout</a></li><li><a href="global.html#SignIn">SignIn</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#TabsLayout">TabsLayout</a></li><li><a href="global.html#Timer">Timer</a></li><li><a href="global.html#WorkoutLayout">WorkoutLayout</a></li><li><a href="global.html#isValidEmail">isValidEmail</a></li><li><a href="global.html#submit">submit</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AuthLayout">AuthLayout</a></li><li><a href="global.html#CreateSplit">CreateSplit</a></li><li><a href="global.html#CustomButton">CustomButton</a></li><li><a href="global.html#FormField">FormField</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#ManageWorkout">ManageWorkout</a></li><li><a href="global.html#RootLayout">RootLayout</a></li><li><a href="global.html#SignIn">SignIn</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#TabsLayout">TabsLayout</a></li><li><a href="global.html#Timer">Timer</a></li><li><a href="global.html#WorkoutLayout">WorkoutLayout</a></li><li><a href="global.html#addExerciseToWorkout">addExerciseToWorkout</a></li><li><a href="global.html#createExercise">createExercise</a></li><li><a href="global.html#createExerciseSet">createExerciseSet</a></li><li><a href="global.html#createUser">createUser</a></li><li><a href="global.html#createWorkout">createWorkout</a></li><li><a href="global.html#fetchPreviousWeekData">fetchPreviousWeekData</a></li><li><a href="global.html#fetchWorkout">fetchWorkout</a></li><li><a href="global.html#getCurrentUser">getCurrentUser</a></li><li><a href="global.html#getUserWorkouts">getUserWorkouts</a></li><li><a href="global.html#isValidEmail">isValidEmail</a></li><li><a href="global.html#logOut">logOut</a></li><li><a href="global.html#signIn">signIn</a></li><li><a href="global.html#submit">submit</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Wed Aug 07 2024 05:16:30 GMT+0100 (British Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Fri Aug 09 2024 03:56:09 GMT+0100 (British Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

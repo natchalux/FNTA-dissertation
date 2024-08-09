@@ -32,7 +32,7 @@ import {
   Text, 
   SafeAreaView, 
   TouchableOpacity,
-  StyleSheet
+  homeStylesheet
 } from 'react-native';
 import { 
   getCurrentUser, 
@@ -43,7 +43,7 @@ import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import CreateSplit from '../../components/CreateSplit';
 import { useGlobalContext } from '../../context/GlobalProvider';
-
+import homeStyles from '../component_styles/HomeStyles';
 /**
  * Home Component
  * 
@@ -148,17 +148,17 @@ const Home = () => {
   };
 
   return (
-    &lt;SafeAreaView style={styles.container}>
-      &lt;Text style={styles.title}>FNTA: Fitness Note Taking App&lt;/Text>
-      &lt;Text style={styles.version}>Version 1.0.0&lt;/Text>
+    &lt;SafeAreaView style={homeStyles.container}>
+      &lt;Text style={homeStyles.title}>FNTA: Fitness Note Taking App&lt;/Text>
+      &lt;Text style={homeStyles.version}>Version 1.0.0&lt;/Text>
       &lt;StatusBar style="light" />
-      &lt;View style={styles.content}>
-        &lt;Text style={styles.timer}>
+      &lt;View style={homeStyles.content}>
+        &lt;Text style={homeStyles.timer}>
           Time Elapsed: {formatTime(timeElapsed)}
         &lt;/Text>
-        &lt;Text style={styles.subtitle}>Workout records:&lt;/Text>
-        &lt;TouchableOpacity style={styles.addButton} onPress={handleAddSplit}>
-          &lt;Text style={styles.addButtonText}>+ Add new split&lt;/Text>
+        &lt;Text style={homeStyles.subtitle}>Workout records:&lt;/Text>
+        &lt;TouchableOpacity style={homeStyles.addButton} onPress={handleAddSplit}>
+          &lt;Text style={homeStyles.addButtonText}>+ Add new split&lt;/Text>
         &lt;/TouchableOpacity>
       
         &lt;CreateSplit
@@ -175,15 +175,15 @@ const Home = () => {
           onBackToStep1={() => setStep(1)}
           onDoneStep2={handleDoneStepTwo}
         />
-        &lt;View style={styles.workoutList}>
-          &lt;Text style={styles.currentProgram}>Your Current Program:&lt;/Text>
+        &lt;View style={homeStyles.workoutList}>
+          &lt;Text style={homeStyles.currentProgram}>Your Current Program:&lt;/Text>
             {workouts.map((workout, index) => (
               &lt;TouchableOpacity 
                 key={workout.$id || index} 
-                style={styles.workoutItem}
+                style={homeStyles.workoutItem}
                 onPress={() => handleSplitPress(workout)}
               >
-                &lt;Text style={styles.workoutItemText}>{workout.workout_name}&lt;/Text>
+                &lt;Text style={homeStyles.workoutItemText}>{workout.workout_name}&lt;/Text>
               &lt;/TouchableOpacity>
             ))}
         &lt;/View>
@@ -191,70 +191,6 @@ const Home = () => {
     &lt;/SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'black',
-  },
-  title: {
-    fontSize: 24,
-    color: '#60A5FA',
-    fontWeight: '600',
-    marginTop: 20,
-    marginLeft: 20,
-  },
-  version: {
-    fontSize: 12,
-    color: '#D1D5DB',
-    fontWeight: '200',
-    marginLeft: 20,
-  },
-  content: {
-    flex: 1,
-    padding: 20,
-  },
-  timer: {
-    fontSize: 24,
-    color: 'white',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  subtitle: {
-    fontSize: 18,
-    color: 'white',
-    marginBottom: 10,
-  },
-  addButton: {
-    backgroundColor: '#D1D5DB',
-    padding: 16,
-    borderRadius: 8,
-  },
-  addButtonText: {
-    color: 'black',
-    textAlign: 'center',
-    fontSize: 16,
-  },
-  workoutList: {
-    flex: 1,
-    marginTop: 20,
-  },
-  currentProgram: {
-    fontSize: 18,
-    color: 'white',
-    marginBottom: 10,
-  },
-  workoutItem: {
-    backgroundColor: '#374151',
-    padding: 16,
-    borderRadius: 8,
-    marginBottom: 10,
-  },
-  workoutItemText: {
-    color: 'white',
-    fontSize: 16,
-  },
-});
 
 export default Home;
 </code></pre>
@@ -267,13 +203,13 @@ export default Home;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AuthLayout">AuthLayout</a></li><li><a href="global.html#CreateSplit">CreateSplit</a></li><li><a href="global.html#CustomButton">CustomButton</a></li><li><a href="global.html#FormField">FormField</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#ManageWorkout">ManageWorkout</a></li><li><a href="global.html#RootLayout">RootLayout</a></li><li><a href="global.html#SignIn">SignIn</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#TabsLayout">TabsLayout</a></li><li><a href="global.html#Timer">Timer</a></li><li><a href="global.html#WorkoutLayout">WorkoutLayout</a></li><li><a href="global.html#isValidEmail">isValidEmail</a></li><li><a href="global.html#submit">submit</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AuthLayout">AuthLayout</a></li><li><a href="global.html#CreateSplit">CreateSplit</a></li><li><a href="global.html#CustomButton">CustomButton</a></li><li><a href="global.html#FormField">FormField</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#ManageWorkout">ManageWorkout</a></li><li><a href="global.html#RootLayout">RootLayout</a></li><li><a href="global.html#SignIn">SignIn</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#TabsLayout">TabsLayout</a></li><li><a href="global.html#Timer">Timer</a></li><li><a href="global.html#WorkoutLayout">WorkoutLayout</a></li><li><a href="global.html#addExerciseToWorkout">addExerciseToWorkout</a></li><li><a href="global.html#createExercise">createExercise</a></li><li><a href="global.html#createExerciseSet">createExerciseSet</a></li><li><a href="global.html#createUser">createUser</a></li><li><a href="global.html#createWorkout">createWorkout</a></li><li><a href="global.html#fetchPreviousWeekData">fetchPreviousWeekData</a></li><li><a href="global.html#fetchWorkout">fetchWorkout</a></li><li><a href="global.html#getCurrentUser">getCurrentUser</a></li><li><a href="global.html#getUserWorkouts">getUserWorkouts</a></li><li><a href="global.html#isValidEmail">isValidEmail</a></li><li><a href="global.html#logOut">logOut</a></li><li><a href="global.html#signIn">signIn</a></li><li><a href="global.html#submit">submit</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Wed Aug 07 2024 05:16:30 GMT+0100 (British Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Fri Aug 09 2024 03:56:09 GMT+0100 (British Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>
