@@ -17,7 +17,7 @@ import manageWorkoutStyles from '../component_styles/ManageWorkoutStyles';
  * 
  * This component allows the user to log their workout sets and compare them to the previous week.
  * Allow user to add more extra sets in one exercise
- * viewing their customized workout name and exercises
+ * Start new session button to icrement the week and track the workout.
  *
  * @component
  * @returns {JSX.Element} The rendered ManageWorkout component.
@@ -40,6 +40,15 @@ const ManageWorkout = () => {
         updateWeekNumber(workoutId, weekNumber);
     }, [weekNumber, workoutId]);
 
+    /**
+     * Loads the workout data from the database and
+     * initialises the input sets and workout data from the previous week
+     * 
+     * @async
+     * @function 
+     * @name loadWorkout
+     * 
+     */
     const loadWorkout = async () => {
         try {
             setIsLoading(true);
@@ -64,6 +73,13 @@ const ManageWorkout = () => {
         }
     };
 
+    /**
+     * Start new week by increase the week number by 1, then load the previous week data for comparison.
+     * 
+     * @async
+     * @function 
+     * @name startNewSession
+     */
     const startNewSession = async () => {
         const currentWeek = Number(weekNumber);
         const newWeekNumber = (currentWeek + 1).toString();
@@ -86,6 +102,13 @@ const ManageWorkout = () => {
         setInputSets(newSets);
     };
 
+    /**
+     * increase the number of set by one, maximum number of set that can be added is 4.
+     * 
+     * @function 
+     * @name addSet
+     * @param {string} exerciseId 
+     */
     const addSet = (exercise) => {
         setInputSets(prev => {
             if (prev[exercise].length < maximum_set_per_exercise) {
@@ -98,6 +121,16 @@ const ManageWorkout = () => {
         });
     };
 
+    /**
+     * Handles chanes in the input for weight and rep in for the exercise.
+     * 
+     * @function 
+     * @name   handleInputChange
+     * @param {string} exerciseId - The ID of the exercise being modified.
+     * @param {number} index - The index of the set being modified.
+     * @param {string} field - The field being modified ('weight' or 'reps').
+     * @param {string} value - The new value for the specified field.
+     */
     const handleInputChange = (exercise, index, field, value) => {
         setInputSets(prev => ({
             ...prev,
@@ -107,6 +140,14 @@ const ManageWorkout = () => {
         }));
     };
 
+
+    /**
+     * Saves the exercise set to the database.
+     * 
+     * @async
+     * @function 
+     * @name saveWorkoutSets
+     */
     const saveWorkoutSets = async () => {
         try {
             for (const [exercise, sets] of Object.entries(inputSets)) {

@@ -20,7 +20,7 @@ import timerStyles from '../component_styles/TImerStyles';
  * user can start, pause, and reset the timer, with some preset resting time settings that match their goal
  * 
  * @component
- * @returns {JSX.Element} The rendered Timer component
+ * @returns {JSX.Element} 
  */
 const Timer = () => {
   const { timeElapsed, formatTime, triggerTimer, setTriggerTimer } = useGlobalContext();
@@ -30,11 +30,20 @@ const Timer = () => {
   const [restTime, setRestTime] = useState(0);
   const timerSheetRef = useRef(null);
   const snapPoints = useMemo(() => ['25%', '50%'], []);
+  /**
+   * Handles opening the bottom sheet for timer presets information.
+   * 
+   * @function 
+   * @name handleTimerSheet
+   */
   const handleTimerSheet = useCallback(() => {
     timerSheetRef.current?.expand();
   }, []);
 
   useEffect(() => {
+    /**
+     * Count down timer, stop the timer when it reaches zero
+     */
     let interval;
     if (isRunning && restTime > 0) {
       interval = setInterval(() => {
@@ -47,36 +56,82 @@ const Timer = () => {
   }, [isRunning, restTime]);
 
   useEffect(() => {
+    /**
+     * Start the tmer automatically when the global state for setTrigger set to true.
+     */
     if (triggerTimer) {
       startTimer();
       setTriggerTimer(false);
     }
   }, [triggerTimer]);
 
+  /**
+   * Start the resting timer
+   * 
+   * @function 
+   * @name startTimer
+   */
   const startTimer = () => {
     const totalSeconds = parseInt(minutes) * 60 + parseInt(seconds);
     setRestTime(totalSeconds);
     setIsRunning(true);
   };
 
+  /**
+   * Pauses the resting timer.
+   * 
+   * @function 
+   * @name pauseTimer
+   */
   const pauseTimer = () => {
     setIsRunning(false);
   };
 
+   /**
+   * Resets the timer and clear the input. 
+   * 
+   * @function 
+   * @name resetTimer
+   */
   const resetTimer = () => {
     setIsRunning(false);
     setRestTime(0);
   };
 
-  const handlePresentRestTime = (minutes) => {
+  /**
+   * Handles setting up resting timer base on the preset options.
+   * 
+   * @function 
+   * @name handlePresetRestTime
+   * @param {number} minutes - The preset minutes value to set.
+   */
+  const handlePresetRestTime = (minutes) => {
     setMinutes(minutes.toString());
     setSeconds('0');
     setRestTime(minutes * 60);
   };
 
-  const recommendedRestTime = () => handlePresentRestTime(2);
-  const recommendedHypertrophy = () => handlePresentRestTime(3);
-  const strengthRestTime = () => handlePresentRestTime(5);
+  /**
+   * Sets the resting timer to the recommended rest time of 2 minutes.
+   * 
+   * @function 
+   * @name recommendedRestTime
+   */
+  const recommendedRestTime = () => handlePresetRestTime(2);
+  /**
+   * Sets the resting timer to hypertrophy setting, 3 minutes
+   * 
+   * @function 
+   * @name recommendedHypertrophy
+   */
+  const recommendedHypertrophy = () => handlePresetRestTime(3);
+  /**
+   * Sets the resting timer to strength focus, 5 minutes
+   * 
+   * @function 
+   * @name strengthRestTime
+   */
+  const strengthRestTime = () => handlePresetRestTime(5);
 
   return (
     <SafeAreaView style={timerStyles.container}>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: app/(auth)/sign-in.jsx</title>
+    <title>JSDoc: Source: app/(tabs)/profile.jsx</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: app/(auth)/sign-in.jsx</h1>
+    <h1 class="page-title">Source: app/(tabs)/profile.jsx</h1>
 
     
 
@@ -26,138 +26,152 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import React, { useState } from 'react';
-import { 
-  SafeAreaView, 
+            <pre class="prettyprint source linenums"><code>import { 
   View, 
   Text, 
-  TouchableOpacity, 
-  Image, 
-  Alert,
-  signInStylesheet
+  SafeAreaView, 
+  Alert 
 } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
-import { Link, router } from 'expo-router';
-import { getCurrentUser, signIn } from '../../lib/appwrite';
-import FormField from '../../components/FormField';
+import React, 
+{ 
+  useState, 
+  useEffect, 
+  useRef, 
+  useMemo, 
+  useCallback 
+} from 'react';
+import { getCurrentUser, logOut } from '../../lib/appwrite';
+import { router } from 'expo-router';
 import CustomButton from '../../components/CustomButton';
-import { useGlobalContext } from '../../context/GlobalProvider';
-import logo from '../../assets/logo.png';
-import signInStyles from '../component_styles/SignInStyles';
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import { projectInfo, appVersion } from '../../assets/textData/ProjectInfo';
+import profileStyles from '../component_styles/ProfileStyles';
+
 
 /**
- * Sign in page Page.
+ * Profile Component
  * 
- * This page allows the user to sign in using their authentication credentials.
- * Upon successful login, it will redirect to the home screen.
+ * This component represents the user's profile page. It is a menu where logout and user info are located.
+ * User can view a project detail from this page.
  * 
  * @component
- * @returns {JSX.Element} The rendered SignIn component.
+ * @returns {React.ReactElement}
  */
+const Profile = () => {
+  const [user, setUser] = useState(null);
+  const bottomSheetRef = useRef(null);
+  const snapPoints = useMemo(() => ['25%', '50%'], []);
 
-const SignIn = () => {
-  const { setUser, setIsLogged } = useGlobalContext();
-  const [form, setForm] = useState({ email: '', password: '' });
-  const [isSubmitting, setSubmitting] = useState(false);
+  const handleOpenSheet = useCallback(() => {
+    bottomSheetRef.current?.expand();
+  }, []);
+  
+  useEffect(() => {
+    /**
+     * Fetch the user data when the component mount
+     * 
+     */
+    const fetchUser = async () => {
+      try {
+        const currentUser = await getCurrentUser();
+        setUser(currentUser);
+      } catch (error) {
+        console.error('Error fetching user:', error);
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   /**
-   * Validates an email address.
+   * User logout
    * 
-   * @function isValidEmail
-   * @param {string} email - The email address that are going to be evaluated
-   * @returns {boolean} - return true if the the eail props is valid, or else false.
+   * Prompts the user for confirmation before logging out. If "yes", logs out the user
+   * and redirect them to the sign-in page.
+   * If there's an error during logout,  throw an alert.
+   * 
+   * @function 
+   * @name logout
+   * 
    */
-  const isValidEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  /**
-   * Handles form submission for log in.
-   * 
-   * Validates the form and attempt to log the user in the system,
-   * if the sign in is successful, the router will redirect the user to the home component.
-   * 
-   * @function submit
-   * @throws {Error} If sign-in fails, throw errors.
-   */
-  const submit = async () => {
-    if (!form.email || !form.password) {
-      Alert.alert('Error', 'Fill in all the fields');
-      return;
-    }
-
-    if (!isValidEmail(form.email)) {
-      Alert.alert('Error', 'Please enter a valid email address');
-      return;
-    }
-
-    console.log("Submitting with email:", form.email);
-
-    setSubmitting(true);
-    
-    try {
-      const session = await signIn(form.email, form.password);
-      const result = await getCurrentUser();
-
-      setUser(result);
-      setIsLogged(true);
-
-      router.replace('/home');
-    } catch (error) {
-      console.error("Error details:", error);
-      Alert.alert('Error', error.message);
-    } finally {
-      setSubmitting(false);
-    }
-  };
+  const logout = () => {
+    Alert.alert(
+      "Confirm Logout",
+      "Are you sure you want to log out?",
+      [
+        {
+          text: "No",
+          onPress: () => console.log("Logout cancelled"),
+          style: "cancel"
+        },
+        { 
+          text: "Yes", 
+          onPress: async () => {
+            try {
+              await logOut();
+              router.replace('/sign-in');
+            } catch (error) {
+              console.error('Cannot log out: ', error);
+              Alert.alert("Error", "Failed to log out. Please try again.");
+            }
+          }
+        }
+      ],
+      { cancelable: false }
+    );
+  }
 
   return (
-    &lt;SafeAreaView style={signInStyles.container}>
-
-      &lt;StatusBar style="light" />
-      &lt;View style={signInStyles.formContainer}>
-        &lt;View style={signInStyles.logoContainer}>
-          &lt;Image 
-            source={logo} 
-            style={signInStyles.logo}
-          />
-        &lt;/View>
-        
-        &lt;Text style={signInStyles.title}>To continue please sign in&lt;/Text>
-        
-        &lt;FormField
-          title='Email'
-          value={form.email}
-          handleChangeText={(e) => setForm({ ...form, email: e })}
-          keyboardType='email-address'
-        />
-        
-        &lt;FormField
-          title='Password'
-          value={form.password}
-          handleChangeText={(e) => setForm({ ...form, password: e })}
-        />
-        
+    &lt;SafeAreaView style={profileStyles.container}>
+      &lt;View style={profileStyles.content}>
+        &lt;Text style={profileStyles.appTitle}>FNTA: Fitness Note Taking App&lt;/Text>
+        &lt;Text style={profileStyles.version}>Version {appVersion}&lt;/Text>
+        {user ? (
+          &lt;Text style={profileStyles.welcome}>Welcome: {user.name}&lt;/Text>
+        ) : (
+          &lt;Text style={profileStyles.loading}>Loading username...&lt;/Text>
+        )}
         &lt;CustomButton
-          title='Sign In'
-          handlePress={submit}
-          containersignInStyles={signInStyles.buttonContainer}
-          isLoading={isSubmitting}
+          title='About this project'
+          handlePress={handleOpenSheet}
+          containerprofileStyles={profileStyles.button}
         />
-        
-        &lt;View>
-          &lt;Text style={signInStyles.signUpText}>Do not have an account?&lt;/Text>
-          &lt;TouchableOpacity style={signInStyles.signUpLinkContainer}>
-            &lt;Link href='/sign-up' style={signInStyles.signUpLink}>Sign Up&lt;/Link>
-          &lt;/TouchableOpacity>  
-        &lt;/View>    
+        &lt;CustomButton
+          title='Log Out'
+          bgColor='#EF4444'
+          containerprofileStyles={profileStyles.button}
+          handlePress={logout}
+        />
       &lt;/View>
+      &lt;BottomSheet
+        ref={bottomSheetRef}
+        index={-1}
+        snapPoints={snapPoints}
+        enablePanDownToClose={true}
+      >
+        &lt;BottomSheetScrollView>
+          &lt;View style={profileStyles.sheetContent}>
+            &lt;Text style={profileStyles.sheetTitle}>About this project 🖥️&lt;/Text>
+            {projectInfo.map((section, index) => (
+              &lt;View key={index} style={profileStyles.sheetSection}>
+                {section.title &amp;&amp; &lt;Text style={profileStyles.sheetSectionTitle}>{section.title}&lt;/Text>}
+                {Array.isArray(section.content) ? (
+                  section.content.map((item, itemIndex) => (
+                    &lt;Text key={itemIndex} style={profileStyles.sheetSectionContent}>• {item}&lt;/Text>
+                  ))
+                ) : (
+                  &lt;Text style={profileStyles.sheetSectionContent}>{section.content}&lt;/Text>
+                )}
+              &lt;/View>
+            ))}
+          &lt;/View>
+        &lt;/BottomSheetScrollView>
+      &lt;/BottomSheet>
     &lt;/SafeAreaView>
   );
-};
+}
 
-export default SignIn;
+export default Profile;
 </code></pre>
         </article>
     </section>

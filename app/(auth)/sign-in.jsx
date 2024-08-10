@@ -16,28 +16,28 @@ import CustomButton from '../../components/CustomButton';
 import { useGlobalContext } from '../../context/GlobalProvider';
 import logo from '../../assets/logo.png';
 import signInStyles from '../component_styles/SignInStyles';
+
 /**
- * Sign In Auth Page.
+ * Sign in page Page.
  * 
  * This page allows the user to sign in using their authentication credentials.
  * Upon successful login, it will redirect to the home screen.
  * 
+ * @component
  * @returns {JSX.Element} The rendered SignIn component.
  */
 
 const SignIn = () => {
-  // access global context for state of the user, preventing logout automatically
   const { setUser, setIsLogged } = useGlobalContext();
   const [form, setForm] = useState({ email: '', password: '' });
-  // useState to track whether the form are submitting
   const [isSubmitting, setSubmitting] = useState(false);
 
-   /**
+  /**
    * Validates an email address.
    * 
    * @function isValidEmail
    * @param {string} email - The email address that are going to be evaluated
-   * @returns {boolean} - return true upon validation, else-false
+   * @returns {boolean} - return true if the the eail props is valid, or else false.
    */
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -45,13 +45,13 @@ const SignIn = () => {
   };
 
   /**
-   * Handles form submission for sign-in.
+   * Handles form submission for log in.
    * 
-   * Validates the form, attempts to sign in the user,
-   * if the sign in successful, router will redirect the user to the homepage
+   * Validates the form and attempt to log the user in the system,
+   * if the sign in is successful, the router will redirect the user to the home component.
    * 
    * @function submit
-   * @throws {Error} If sign-in fails
+   * @throws {Error} If sign-in fails, throw errors.
    */
   const submit = async () => {
     if (!form.email || !form.password) {

@@ -21,9 +21,11 @@ import homeStyles from '../component_styles/HomeStyles';
  * Home Component
  * 
  * This page hosting a main functionality of the app where user can add new workout and exercise in those workout files that they created.
+ * Add new splits button to create a new workout file.
+ * It is also displaying any workout file that user created.
  * 
- * 
- * @returns {JSX.Element} The rendered Home component.
+ * @component
+ * @returns {JSX.Element}
  */
 
 const Home = () => {
@@ -38,11 +40,8 @@ const Home = () => {
 
   useEffect(() => {
     /**
-     * Loads the user's workouts from the database.
+     * Loads the user workouts from the database when the component mount.
      * 
-     * This function is executed once when the component mounts and whenever
-     * the `loadWorkouts` function is called. It fetches the current user's 
-     * workouts and updates the state with the fetched data.
      */
     const loadWorkouts = async () => {
       try {
@@ -60,8 +59,8 @@ const Home = () => {
   }, []);
 
   /**
-   * Opens the modal to add a new workout split.
-   * 
+   * Opens the modal component when adding a new workout split/file.
+   *  
    * This function sets the modal visibility to true and resets the state for the 
    * workout creation process.
    */
@@ -77,6 +76,13 @@ const Home = () => {
     }
   };
 
+   /**
+   * Opens the modal to add a new workout split.
+   * resets creating new workout state. 
+   * 
+   * @function 
+   * @name handleAddSplit
+   */
   const handleAddSplit = () => {
     setModalVisible(true);
     setStep(1);
@@ -84,6 +90,13 @@ const Home = () => {
     setExercises([]);
   };
 
+  /**
+   * Handles the completion of step one in the modal workout creation.
+   * Validates that a split name(workout name) is entered before proceeding to the next step.
+   * 
+   * @function 
+   * @name handleDoneStepOne
+   */
   const handleDoneStepOne = () => {
     if (splitName.trim() === '') {
       alert('Please enter a split name');
@@ -92,6 +105,13 @@ const Home = () => {
     setStep(2);
   };
 
+  /**
+   * Adds an exercise to the list.
+   * Validates that the exercise name has been added.
+   * 
+   * @function 
+   * @name handleAddExercise
+   */
   const handleAddExercise = () => {
     if (exercise.trim() === '') {
       alert('Please enter an exercise name');
@@ -101,6 +121,14 @@ const Home = () => {
     setExercise('');
   };
 
+  /**
+   * Handles the completion of step two in the workout file creation.
+   * Creates the workout file and refreshes the list of workouts.
+   * @async
+   * @function 
+   * @name handleDoneStepTwo
+
+  */
   const handleDoneStepTwo = async () => {
     try {
       const currentUser = await getCurrentUser();
@@ -123,6 +151,15 @@ const Home = () => {
     }
   };
 
+  /**
+   * Navigates to the manage_split screen when the workout file is clicked.
+   * 
+   * 
+   * @function 
+   * @name handleSplitPress
+   * @param {Object} workout The selected workout file
+   * 
+   */
   const handleSplitPress = (workout) => {
     router.push({
       pathname: "/workout/manage_split",

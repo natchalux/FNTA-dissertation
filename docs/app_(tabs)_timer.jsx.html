@@ -48,7 +48,7 @@ import timerStyles from '../component_styles/TImerStyles';
  * user can start, pause, and reset the timer, with some preset resting time settings that match their goal
  * 
  * @component
- * @returns {JSX.Element} The rendered Timer component
+ * @returns {JSX.Element} 
  */
 const Timer = () => {
   const { timeElapsed, formatTime, triggerTimer, setTriggerTimer } = useGlobalContext();
@@ -58,11 +58,20 @@ const Timer = () => {
   const [restTime, setRestTime] = useState(0);
   const timerSheetRef = useRef(null);
   const snapPoints = useMemo(() => ['25%', '50%'], []);
+  /**
+   * Handles opening the bottom sheet for timer presets information.
+   * 
+   * @function 
+   * @name handleTimerSheet
+   */
   const handleTimerSheet = useCallback(() => {
     timerSheetRef.current?.expand();
   }, []);
 
   useEffect(() => {
+    /**
+     * Count down timer, stop the timer when it reaches zero
+     */
     let interval;
     if (isRunning &amp;&amp; restTime > 0) {
       interval = setInterval(() => {
@@ -75,36 +84,82 @@ const Timer = () => {
   }, [isRunning, restTime]);
 
   useEffect(() => {
+    /**
+     * Start the tmer automatically when the global state for setTrigger set to true.
+     */
     if (triggerTimer) {
       startTimer();
       setTriggerTimer(false);
     }
   }, [triggerTimer]);
 
+  /**
+   * Start the resting timer
+   * 
+   * @function 
+   * @name startTimer
+   */
   const startTimer = () => {
     const totalSeconds = parseInt(minutes) * 60 + parseInt(seconds);
     setRestTime(totalSeconds);
     setIsRunning(true);
   };
 
+  /**
+   * Pauses the resting timer.
+   * 
+   * @function 
+   * @name pauseTimer
+   */
   const pauseTimer = () => {
     setIsRunning(false);
   };
 
+   /**
+   * Resets the timer and clear the input. 
+   * 
+   * @function 
+   * @name resetTimer
+   */
   const resetTimer = () => {
     setIsRunning(false);
     setRestTime(0);
   };
 
-  const handlePresentRestTime = (minutes) => {
+  /**
+   * Handles setting up resting timer base on the preset options.
+   * 
+   * @function 
+   * @name handlePresetRestTime
+   * @param {number} minutes - The preset minutes value to set.
+   */
+  const handlePresetRestTime = (minutes) => {
     setMinutes(minutes.toString());
     setSeconds('0');
     setRestTime(minutes * 60);
   };
 
-  const recommendedRestTime = () => handlePresentRestTime(2);
-  const recommendedHypertrophy = () => handlePresentRestTime(3);
-  const strengthRestTime = () => handlePresentRestTime(5);
+  /**
+   * Sets the resting timer to the recommended rest time of 2 minutes.
+   * 
+   * @function 
+   * @name recommendedRestTime
+   */
+  const recommendedRestTime = () => handlePresetRestTime(2);
+  /**
+   * Sets the resting timer to hypertrophy setting, 3 minutes
+   * 
+   * @function 
+   * @name recommendedHypertrophy
+   */
+  const recommendedHypertrophy = () => handlePresetRestTime(3);
+  /**
+   * Sets the resting timer to strength focus, 5 minutes
+   * 
+   * @function 
+   * @name strengthRestTime
+   */
+  const strengthRestTime = () => handlePresetRestTime(5);
 
   return (
     &lt;SafeAreaView style={timerStyles.container}>
@@ -226,13 +281,13 @@ export default Timer;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AuthLayout">AuthLayout</a></li><li><a href="global.html#CreateSplit">CreateSplit</a></li><li><a href="global.html#CustomButton">CustomButton</a></li><li><a href="global.html#FormField">FormField</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#ManageWorkout">ManageWorkout</a></li><li><a href="global.html#RootLayout">RootLayout</a></li><li><a href="global.html#SignIn">SignIn</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#TabsLayout">TabsLayout</a></li><li><a href="global.html#Timer">Timer</a></li><li><a href="global.html#WorkoutLayout">WorkoutLayout</a></li><li><a href="global.html#addExerciseToWorkout">addExerciseToWorkout</a></li><li><a href="global.html#createExercise">createExercise</a></li><li><a href="global.html#createExerciseSet">createExerciseSet</a></li><li><a href="global.html#createUser">createUser</a></li><li><a href="global.html#createWorkout">createWorkout</a></li><li><a href="global.html#fetchPreviousWeekData">fetchPreviousWeekData</a></li><li><a href="global.html#fetchWorkout">fetchWorkout</a></li><li><a href="global.html#getCurrentUser">getCurrentUser</a></li><li><a href="global.html#getUserWorkouts">getUserWorkouts</a></li><li><a href="global.html#isValidEmail">isValidEmail</a></li><li><a href="global.html#logOut">logOut</a></li><li><a href="global.html#signIn">signIn</a></li><li><a href="global.html#submit">submit</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AuthLayout">AuthLayout</a></li><li><a href="global.html#CreateSplit">CreateSplit</a></li><li><a href="global.html#CustomButton">CustomButton</a></li><li><a href="global.html#FormField">FormField</a></li><li><a href="global.html#GlobalContext">GlobalContext</a></li><li><a href="global.html#GlobalProvider">GlobalProvider</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#ManageWorkout">ManageWorkout</a></li><li><a href="global.html#Profile">Profile</a></li><li><a href="global.html#RootLayout">RootLayout</a></li><li><a href="global.html#SignIn">SignIn</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#TabsLayout">TabsLayout</a></li><li><a href="global.html#Timer">Timer</a></li><li><a href="global.html#WorkoutLayout">WorkoutLayout</a></li><li><a href="global.html#addExerciseToWorkout">addExerciseToWorkout</a></li><li><a href="global.html#addSet">addSet</a></li><li><a href="global.html#createExercise">createExercise</a></li><li><a href="global.html#createExerciseSet">createExerciseSet</a></li><li><a href="global.html#createUser">createUser</a></li><li><a href="global.html#createWorkout">createWorkout</a></li><li><a href="global.html#fetchPreviousWeekData">fetchPreviousWeekData</a></li><li><a href="global.html#fetchWorkout">fetchWorkout</a></li><li><a href="global.html#formatTime">formatTime</a></li><li><a href="global.html#getCurrentUser">getCurrentUser</a></li><li><a href="global.html#getUserWorkouts">getUserWorkouts</a></li><li><a href="global.html#handleAddExercise">handleAddExercise</a></li><li><a href="global.html#handleAddSplit">handleAddSplit</a></li><li><a href="global.html#handleDoneStepOne">handleDoneStepOne</a></li><li><a href="global.html#handleDoneStepTwo">handleDoneStepTwo</a></li><li><a href="global.html#handleInputChange">handleInputChange</a></li><li><a href="global.html#handlePresetRestTime">handlePresetRestTime</a></li><li><a href="global.html#handleSplitPress">handleSplitPress</a></li><li><a href="global.html#handleTimerSheet">handleTimerSheet</a></li><li><a href="global.html#isValidEmail">isValidEmail</a></li><li><a href="global.html#loadWorkout">loadWorkout</a></li><li><a href="global.html#logOut">logOut</a></li><li><a href="global.html#logout">logout</a></li><li><a href="global.html#pauseTimer">pauseTimer</a></li><li><a href="global.html#recommendedHypertrophy">recommendedHypertrophy</a></li><li><a href="global.html#recommendedRestTime">recommendedRestTime</a></li><li><a href="global.html#resetTimer">resetTimer</a></li><li><a href="global.html#saveWorkoutSets">saveWorkoutSets</a></li><li><a href="global.html#signIn">signIn</a></li><li><a href="global.html#startNewSession">startNewSession</a></li><li><a href="global.html#startTimer">startTimer</a></li><li><a href="global.html#strengthRestTime">strengthRestTime</a></li><li><a href="global.html#submit">submit</a></li><li><a href="global.html#updateWeekNumber">updateWeekNumber</a></li><li><a href="global.html#useGlobalContext">useGlobalContext</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Fri Aug 09 2024 05:02:55 GMT+0100 (British Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Sat Aug 10 2024 00:27:26 GMT+0100 (British Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

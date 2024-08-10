@@ -18,18 +18,16 @@ import signUpStyles from '../component_styles/SignInStyles';
  * 
  * This page allow user to sign up using their information such as email, password and username. With that they can use email and password to log in later.
  * 
+ * @component
  * @returns {JSX.Element} The rendered SignUp component.
  */
 
 const SignUp = () => {
   // access global context for state of the user, preventing logout automatically
   const {setUser, setIsLogged} = useGlobalContext();
-  // useState for email input
-  const [email, setEmail] = useState('');
-  // useState fort password input
-  const [password, setPassword] = useState('');
-  // useState to track whether the form is submitting
+  // manage submitting status
   const [isSubmitting, setSubmitting] = useState(false);
+  // mange form inputs
   const [form, setForm] = useState({
     username: '',
     email: '',
@@ -54,7 +52,9 @@ const SignUp = () => {
    * Validates the form, attempts to sign in the user,
    * if the sign in successful, router will redirect the user to the homepage
    *
-   * @function submit
+   * @aysnc
+   * @function
+   * @name submit
    * @throws {Error} If sign-up fails
    */
   const submit = async () => {

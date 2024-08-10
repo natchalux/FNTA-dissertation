@@ -20,8 +20,7 @@ import formFieldStyles from '../app/component_styles/FormFieldStyles';
  * @param {string} [props.placeholder] - Props for custom placeholder
  * @param {Function} props.handleChangeText - Handle change text input
  * @param {Object} [props.rest] - Any additional props that might be added.
- * 
- * @returns {JSX.Element} The rendered FormField component
+ * @returns {JSX.Element} 
  * 
  */
 const FormField = ({

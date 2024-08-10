@@ -1,5 +1,17 @@
-import { View, Text, SafeAreaView, Alert, profileStylesheet } from 'react-native';
-import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import { 
+  View, 
+  Text, 
+  SafeAreaView, 
+  Alert 
+} from 'react-native';
+import React, 
+{ 
+  useState, 
+  useEffect, 
+  useRef, 
+  useMemo, 
+  useCallback 
+} from 'react';
 import { getCurrentUser, logOut } from '../../lib/appwrite';
 import { router } from 'expo-router';
 import CustomButton from '../../components/CustomButton';
@@ -8,15 +20,29 @@ import { projectInfo, appVersion } from '../../assets/textData/ProjectInfo';
 import profileStyles from '../component_styles/ProfileStyles';
 
 
+/**
+ * Profile Component
+ * 
+ * This component represents the user's profile page. It is a menu where logout and user info are located.
+ * User can view a project detail from this page.
+ * 
+ * @component
+ * @returns {React.ReactElement}
+ */
 const Profile = () => {
   const [user, setUser] = useState(null);
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ['25%', '50%'], []);
+
   const handleOpenSheet = useCallback(() => {
     bottomSheetRef.current?.expand();
   }, []);
   
   useEffect(() => {
+    /**
+     * Fetch the user data when the component mount
+     * 
+     */
     const fetchUser = async () => {
       try {
         const currentUser = await getCurrentUser();
@@ -28,7 +54,18 @@ const Profile = () => {
 
     fetchUser();
   }, []);
-  
+
+  /**
+   * User logout
+   * 
+   * Prompts the user for confirmation before logging out. If "yes", logs out the user
+   * and redirect them to the sign-in page.
+   * If there's an error during logout,  throw an alert.
+   * 
+   * @function 
+   * @name logout
+   * 
+   */
   const logout = () => {
     Alert.alert(
       "Confirm Logout",

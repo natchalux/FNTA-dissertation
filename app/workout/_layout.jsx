@@ -1,13 +1,14 @@
 import { Stack } from 'expo-router';
 
 /**
- * workout
- * __layout.jsx
- * 
- * A layout that contains the modal manage_split screen
+ * WorkoutLayout 
  * 
  * 
- * @returns {JSX.Element} The rendered WorkoutLayout component.
+ * A layout that contains the modal manage_split screen,
+ * it set up the modal screen for manage workout page.
+ * 
+ * @component
+ * @returns {JSX.Element}
  */
 const WorkoutLayout = () =>{
   return (

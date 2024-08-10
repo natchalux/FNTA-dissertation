@@ -7,7 +7,7 @@ import customButtonStyles from '../app/component_styles/CustomButtonStyles';
  * 
  * Custom Component
  * 
- * This component renders a customizable button that can be used throughout the application.
+ * This component renders a customisable button that can be used throughout the application.
  * It handles different states like loading and disabled.
  * currently it is only utilized in Auth pages.
  * 
@@ -18,8 +18,8 @@ import customButtonStyles from '../app/component_styles/CustomButtonStyles';
  * @param {string} [props.containerStyles] - Styles for button
  * @param {boolean} [props.isLoading=false] - Determine the loading state of the button 
  * @param {Object} [props.style] - Additional customButtonStyles for the button
+ * @returns {JSX.Element} 
  * 
- * @returns {JSX.Element} The rendered CustomButton component
  */
 const CustomButton = ({
   title, 

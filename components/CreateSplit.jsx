@@ -25,10 +25,11 @@ import createSplitStyles from '../app/component_styles/CreateSplitStyles';
  * @param {Function} props.onAddExercise - Function to add the current exercise to the list
  * @param {string[]} props.exercises - List of added exercises
  * @param {Function} props.onBackToStep1 - Function to go back to step 1
- * @param {Function} props.onDoneStep2 - Function to finalize the split creation
- * 
+ * @param {Function} props.onDoneStep2 - Function to finalise the split creation
  * @returns {JSX.Element} The rendered CreateSplit component
+ * 
  */
+
 
 const CreateSplit = ({ 
   visible, 

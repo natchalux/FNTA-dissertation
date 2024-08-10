@@ -1,12 +1,10 @@
-// src/__tests__/SignIn.test.jsx
-
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import '@testing-library/jest-dom'
 import SignIn from '../app/(auth)/sign-in';
 import { signIn, getCurrentUser } from '../lib/appwrite';
 import { useGlobalContext } from '../context/GlobalProvider';
-// Mock the imports
+
 jest.mock('../lib/appwrite', () => ({
   getCurrentUser: jest.fn(),
   signIn: jest.fn(),
@@ -58,7 +56,7 @@ describe('SignIn Component', () => {
     const { getByPlaceholderText, getByText } = render(<SignIn />);
     const mockUser = { id: 'user-id' };
 
-    signIn.mockResolvedValueOnce({}); // Mock a successful signIn
+    signIn.mockResolvedValueOnce({});
     getCurrentUser.mockResolvedValueOnce(mockUser);
 
     fireEvent.changeText(getByPlaceholderText('Email'), 'test@example.com');
@@ -70,8 +68,6 @@ describe('SignIn Component', () => {
       expect(getCurrentUser).toHaveBeenCalled();
       expect(setUser).toHaveBeenCalledWith(mockUser);
       expect(setIsLogged).toHaveBeenCalledWith(true);
-      // Check if navigation happens (depends on how routing is handled)
-      // You might need to mock router.replace if you are using it
     });
   });
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: components/FormField.jsx</title>
+    <title>JSDoc: Source: context/GlobalProvider.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: components/FormField.jsx</h1>
+    <h1 class="page-title">Source: context/GlobalProvider.js</h1>
 
     
 
@@ -26,69 +26,136 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { 
-  View, 
-  Text, 
-  TextInput, 
-  TouchableOpacity
-} from 'react-native'
-import React, { useState } from 'react'
-import formFieldStyles from '../app/component_styles/FormFieldStyles';
+            <pre class="prettyprint source linenums"><code>import React, { createContext, useContext, useEffect, useState } from 'react';
+import { getCurrentUser } from '../lib/appwrite';
 
 /**
- * FormField Component
+ * GlobalContext
  * 
- * This component renders a customizable form field that can handle text inputs, and security features such as show password. 
- * It is specifically made for the Auth pages. 
- * 
- * @component
- * @param {Object} props - props
- * @param {string} props.title - Title of the form field
- * @param {string} props.value - The value of an input
- * @param {string} [props.placeholder] - Props for custom placeholder
- * @param {Function} props.handleChangeText - Handle change text input
- * @param {Object} [props.rest] - Any additional props that might be added.
- * @returns {JSX.Element} 
+ * This context provides global state management across the application, 
+ * this including user authentication status, triggering resting timer, and other shared state.
  * 
  */
-const FormField = ({
-  title, 
-  value, 
-  placeholder, 
-  handleChangeText, 
-  ...props
-}) => {
-  const [showPassword, setShowPassword] = useState(false);
-  const isPassword = title.toLowerCase() === 'password';
+const GlobalContext = createContext();
+
+/**
+ * Create a custom hook for globalcontext usage.
+ * 
+ * 
+ * @returns {Object} The context value containing global state and functions.
+ */
+export const useGlobalContext = () => useContext(GlobalContext);
+
+/**
+ * GlobalProvider Component
+ * 
+ * The globalcontext wrapped around the application and provide global state that can be use around the application
+ * The componenet manage user authentication, time triggering and other state such as week number within the manage workout screen
+ * to be accessible throughout the app.
+ * 
+ * @component
+ * @param {Object} props 
+ * @param {React.ReactNode} props.children - The children components
+ * @returns {JSX.Element} 
+ */
+const GlobalProvider = ({ children }) => {
+  const [isLogged, setIsLogged] = useState(false);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [timeElapsed, setTimeElapsed] = useState(0);
+  const [triggerTimer, setTriggerTimer] = useState(false);
+  const [weekNumbers, setWeekNumbers] = useState({});
+
+  /**
+   * Formats the given time in seconds into HH:MM:SS format.
+   * 
+   * @function
+   * @name formatTime
+   * @param {number} seconds - The time in seconds to format.
+   * @returns {string} The formatted time as a string.
+   */
+  const formatTime = (seconds) => {
+    const hrs = Math.floor(seconds / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  /**
+   * Updates the week number for a specific workout.
+   * 
+   * @function
+   * @name updateWeekNumber
+   * @param {string} workoutId - Id of the workouts
+   * @param {string} newWeekNumber - new week number to set.
+   */
+
+  const updateWeekNumber = (workoutId, newWeekNumber) => {
+    setWeekNumbers(prev => ({
+      ...prev,
+      [workoutId]: newWeekNumber
+    }));
+  };
+
+  useEffect(() => {
+    /**
+     * Fetches the current user from the Appwrite to determine if they are logged in.
+     * Updates the global state with user information. 
+     * Set to null if not logged in
+     */
+    getCurrentUser()
+      .then((res) => {
+        if (res) {
+          setIsLogged(true);
+          setUser(res);
+        } else {
+          setIsLogged(false);
+          setUser(null);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  useEffect(() => {
+    /**
+     * Starts a timer that increments the `timeElapsed` state every second.
+     * This shows the timer running when the user logged for the entire duration of using the app
+     */
+    const interval = setInterval(() => {
+      setTimeElapsed(prevTime => prevTime + 1);
+    }, 1000);
+  
+    return () => clearInterval(interval);
+  }, []);
+
 
   return (
-    &lt;View style={formFieldStyles.container}>
-      &lt;TextInput
-        style={formFieldStyles.input}
-        placeholder={title}
-        value={value}
-        onChangeText={handleChangeText}
-        secureTextEntry={isPassword &amp;&amp; !showPassword}
-        placeholderTextColor="#9CA3AF"
-        {...props}
-      />
-      {isPassword &amp;&amp; (
-        &lt;TouchableOpacity 
-          onPress={() => setShowPassword(!showPassword)}
-          style={formFieldStyles.showPasswordButton}
-        >
-          &lt;Text style={formFieldStyles.showPasswordText}>
-            {showPassword ? 'Hide' : 'Show'}
-          &lt;/Text>
-        &lt;/TouchableOpacity>
-      )}
-    &lt;/View>
+    &lt;GlobalContext.Provider
+      value={{
+        isLogged,
+        setIsLogged,
+        user,
+        setUser,
+        loading,
+        timeElapsed,
+        formatTime,
+        weekNumbers,
+        updateWeekNumber,
+        triggerTimer,
+        setTriggerTimer
+      }}
+    >
+      {children}
+    &lt;/GlobalContext.Provider>
   );
 };
 
-
-export default FormField;
-</code></pre>
+export default GlobalProvider;</code></pre>
         </article>
     </section>
 

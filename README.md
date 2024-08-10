@@ -24,15 +24,13 @@ Before you begin, ensure you have met the following requirements:
   ```
   npm install -g expo-cli
   ```
-  Git: Install Git.
-
-  Appwrite: Set up an Appwrite instance to manage your backend. More details can be found here.
 
 #### Installation
 
-Installation
-Clone the Repository
-Clone the project repository:
+Installation Instruction
+
+1. Clone the Repository 
+2. Clone the project repository:
 
 
 git clone https://github.com/yourusername/your-repo.git
