@@ -12,7 +12,7 @@ It includes features such as:
 - **Workout Comparison**: The app enables users to compare their current workouts with those from previous weeks to monitor progress.
 - **Adding Extra Sets**: Users can add additional sets to their exercises dynamically.
 - **Customizable Workouts**: Users can create workout names, exercises, and set configurations to suit their fitness goals.
-- **Resting timer: Users can also create their custom resting timer which triggers automatically upon logging your set 
+- **Resting timer**: Users can also create their custom resting timer which triggers automatically upon logging your set 
 
 ## Getting Started
 
