@@ -1,4 +1,4 @@
-# Dissertation Project
+# Fitness Note Taking App: Dissertation Project
 
 Welcome to the documentation for my dissertation project. 
 This project focuses on the development and testing of a mobile application called FNTA: Fitness note taking app which designed to help users manage their workout, tracking progress and creating resting timer.
