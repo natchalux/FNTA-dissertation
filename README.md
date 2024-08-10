@@ -97,7 +97,7 @@ npx expo start
 1. Navigate to the menu tabs, there is a logout button that allow you to delete your session.
 
 
-#### Tips for the first timer, or how to use to app effectively 
+## Tips for the first timer, or how to use to app effectively 
 
 1. Trying to increase the weight or reps in each session. It can be either or both.
 2. Stick with the same exercise and routine. Consistency is key
