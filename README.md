@@ -38,7 +38,8 @@ Installation Instruction
 1.Clone the Repository: git clone https://github.com/natchalux/FNTA-dissertation 
 
 2. Navigate to the Project Directory
-- Change into the project directory:
+
+Change into the project directory:
 
 ```
 cd your-repo
