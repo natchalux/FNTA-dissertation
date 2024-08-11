@@ -95,9 +95,9 @@ const Home = () => {
    * Validates that a split name(workout name) is entered before proceeding to the next step.
    * 
    * @function 
-   * @name handleDoneStepOne
+   * @name handleDoneWorkout
    */
-  const handleDoneStepOne = () => {
+  const handleDoneWorkout = () => {
     if (splitName.trim() === '') {
       alert('Please enter a split name');
       return;
@@ -124,12 +124,13 @@ const Home = () => {
   /**
    * Handles the completion of step two in the workout file creation.
    * Creates the workout file and refreshes the list of workouts.
+   * 
    * @async
    * @function 
-   * @name handleDoneStepTwo
+   * @name handleDoneExercise
 
   */
-  const handleDoneStepTwo = async () => {
+  const handleDoneExercise = async () => {
     try {
       const currentUser = await getCurrentUser();
       if (!currentUser){
@@ -190,13 +191,13 @@ const Home = () => {
           step={step}
           splitName={splitName}
           onSplitNameChange={setSplitName}
-          onDoneStep1={handleDoneStepOne}
+          onDoneStepOne={handleDoneWorkout}
           exercise={exercise}
           onExerciseChange={setExercise}
           onAddExercise={handleAddExercise}
           exercises={exercises}
-          onBackToStep1={() => setStep(1)}
-          onDoneStep2={handleDoneStepTwo}
+          backToOne={() => setStep(1)}
+          onDoneStepTwo={handleDoneExercise}
         />
         <View style={homeStyles.workoutList}>
           <Text style={homeStyles.currentProgram}>Your Current Program:</Text>

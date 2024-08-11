@@ -24,8 +24,8 @@ import timerStyles from '../component_styles/TImerStyles';
  */
 const Timer = () => {
   const { timeElapsed, formatTime, triggerTimer, setTriggerTimer } = useGlobalContext();
-  const [minutes, setMinutes] = useState('');
-  const [seconds, setSeconds] = useState('');
+  const [minutes, setMinutes] = useState('0');
+  const [seconds, setSeconds] = useState('0');
   const [isRunning, setIsRunning] = useState(false);
   const [restTime, setRestTime] = useState(0);
   const timerSheetRef = useRef(null);

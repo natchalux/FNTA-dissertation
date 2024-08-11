@@ -89,7 +89,7 @@ const timerStyles = StyleSheet.create({
     marginBottom: 20,
   },
   customButton: {
-    marginBottom: 20,
+    marginTop: 10,
     height: 80,
     justifyContent: 'center',
     alignItems: 'center',
@@ -116,7 +116,8 @@ const timerStyles = StyleSheet.create({
     marginBottom: 4,
   },
   presetContainer: {
-    paddingVertical: 20,  // Add padding to increase space overall
+    paddingVertical: 20, 
+    marginTop: 20
   },
 });
 

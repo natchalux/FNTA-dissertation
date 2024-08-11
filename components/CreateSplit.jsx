@@ -19,13 +19,13 @@ import createSplitStyles from '../app/component_styles/CreateSplitStyles';
  * @param {number} props.step - Current step in the modal (1 or 2)
  * @param {string} props.splitName - Name of the workout split
  * @param {Function} props.onSplitNameChange - Function to handle split name change
- * @param {Function} props.onDoneStep1 - Function to proceed from step 1 to step 2
+ * @param {Function} props.onDoneStepOne - Function to proceed from step 1 to step 2
  * @param {string} props.exercise - Name of the current exercise being added
  * @param {Function} props.onExerciseChange - Function to handle exercise name change
  * @param {Function} props.onAddExercise - Function to add the current exercise to the list
  * @param {string[]} props.exercises - List of added exercises
- * @param {Function} props.onBackToStep1 - Function to go back to step 1
- * @param {Function} props.onDoneStep2 - Function to finalise the split creation
+ * @param {Function} props.backToOne - Function to go back to step 1
+ * @param {Function} props.onDoneStepTwo - Function to finalise the split creation
  * @returns {JSX.Element} The rendered CreateSplit component
  * 
  */
@@ -37,13 +37,13 @@ const CreateSplit = ({
   step, 
   splitName, 
   onSplitNameChange, 
-  onDoneStep1,
+  onDoneStepOne,
   exercise,
   onExerciseChange,
   onAddExercise,
   exercises,
-  onBackToStep1,
-  onDoneStep2
+  backToOne,
+  onDoneStepTwo
 }) => {
   return (
     <Modal
@@ -68,7 +68,7 @@ const CreateSplit = ({
                 <TouchableOpacity onPress={onClose}>
                   <Text style={createSplitStyles.buttonText}>Cancel</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={onDoneStep1}>
+                <TouchableOpacity onPress={onDoneStepOne}>
                   <Text style={createSplitStyles.buttonText}>Done</Text>
                 </TouchableOpacity>
               </View>
@@ -90,10 +90,10 @@ const CreateSplit = ({
                 <Text key={index} style={createSplitStyles.exerciseText}>• {ex}</Text>
               ))}
               <View style={createSplitStyles.buttonRow}>
-                <TouchableOpacity onPress={onBackToStep1}>
+                <TouchableOpacity onPress={backToOne}>
                   <Text style={createSplitStyles.buttonText}>Back</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={onDoneStep2}>
+                <TouchableOpacity onPress={onDoneStepTwo}>
                   <Text style={createSplitStyles.buttonText}>Done</Text>
                 </TouchableOpacity>
               </View>
