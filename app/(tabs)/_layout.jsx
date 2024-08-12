@@ -16,7 +16,7 @@ const TabsLayout = () => {
   return (
    <>
    {/**
-         *  Tabs icon selector via Ionicons
+         *  Tab icon provided by Iconicons 
          * @return {Ionicons}
          */}
    <Tabs
